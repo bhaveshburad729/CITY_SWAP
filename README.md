@@ -32,6 +32,7 @@ A modern full-stack web application enabling travelers, expats, and locals to ex
 | **Axios** | Promised-based HTTP client for seamless API communication, error handling, and base URL config. |
 | **React Router DOM** | Declarative client-side routing for multi-page navigation. |
 | **Lucide Icons** | Clean modern icons for UI enhancement. |
+| **agentation** | In-browser visual annotation toolbar enabling real-time feedback & MCP server sync with AI coding agents. |
 | **Custom CSS Tokens** | Tailored glassmorphism, responsive CSS grid, dark mode, and sleek micro-animations. |
 
 ### Backend Stack (`server/`)
@@ -172,3 +173,16 @@ SECRET_KEY="your_jwt_secret_key_change_in_prod"
 - **Authentication**: Implement JWT token authentication and user login routes.
 - **Direct Messaging**: Add real-time chat between swappers using WebSockets.
 - **Image Uploads**: Integrate cloud media storage (AWS S3 or Cloudinary) for item photos.
+
+---
+
+## 🤖 Agentation MCP Server Integration
+
+The **Agentation MCP Server** is completely configured and enabled for real-time visual feedback and automated AI code edits:
+
+- **Frontend Component**: `<Agentation />` toolbar is integrated in [`client/src/App.jsx`](file:///c:/Users/Hi/Desktop/CITY_SWAP/client/src/App.jsx) (active in development mode).
+- **MCP Server Protocol**: Exposes tools (`agentation_list_sessions`, `agentation_get_pending`, `agentation_watch_annotations`, `agentation_reply`, `agentation_resolve`, `agentation_dismiss`) for direct agent communication.
+- **Workflow**:
+  1. Open the application in development (`npm run dev`).
+  2. Use the in-browser Agentation toolbar to annotate or leave visual feedback on UI components.
+  3. The AI agent listens via `agentation_watch_annotations`, inspects CSS selectors and DOM contexts, applies code fixes, and marks annotations resolved via `agentation_resolve`.
