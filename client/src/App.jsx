@@ -1,37 +1,28 @@
-import React, { useState } from 'react';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import HomePage from './pages/HomePage';
-import CreateItemModal from './components/CreateItemModal';
-import { useSwapItems } from './hooks/useSwapItems';
+import React from 'react';
+import Navbar from './components/ecopulse/Navbar';
+import HeroSection from './components/ecopulse/HeroSection';
+import RolesSection from './components/ecopulse/RolesSection';
+import HowItWorksSection from './components/ecopulse/HowItWorksSection';
+import ImpactSection from './components/ecopulse/ImpactSection';
+import FooterSection from './components/ecopulse/FooterSection';
+import { Agentation } from 'agentation';
 import './index.css';
 
 function App() {
-  const { items, health, loading, error, addItem } = useSwapItems();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleCreateItem = async (newItemData) => {
-    await addItem(newItemData);
-  };
-
   return (
-    <div className="app-layout">
-      <Navbar onOpenCreateModal={() => setIsModalOpen(true)} health={health} />
-      
-      <HomePage
-        items={items}
-        loading={loading}
-        error={error}
-        onOpenCreateModal={() => setIsModalOpen(true)}
-      />
+    <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-emerald-600 selection:text-white relative overflow-x-hidden">
+      {/* Main Page Header & Sections */}
+      <Navbar />
+      <main className="relative z-10">
+        <HeroSection />
+        <RolesSection />
+        <HowItWorksSection />
+        <ImpactSection />
+      </main>
+      <FooterSection />
 
-      <Footer />
-
-      <CreateItemModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handleCreateItem}
-      />
+      {/* Agentation Visual Feedback & Annotation Toolbar */}
+      {import.meta.env.DEV && <Agentation />}
     </div>
   );
 }
