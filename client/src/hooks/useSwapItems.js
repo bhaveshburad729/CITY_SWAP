@@ -33,6 +33,7 @@ export const useSwapItems = () => {
         setHealth({ status: 'offline', service: 'CITY_SWAP Backend (Connecting...)' });
       }
     } catch (err) {
+      console.warn("Failed to fetch from backend, using local state:", err);
       setError(err.message || 'An error occurred while fetching items');
     } finally {
       setLoading(false);
@@ -45,6 +46,7 @@ export const useSwapItems = () => {
       setItems((prev) => [created, ...prev]);
       return created;
     } catch (err) {
+      console.warn("Failed to fetch from backend, using local state:", err);
       // Local fallback additions for dev mode
       const localItem = {
         id: Date.now(),
