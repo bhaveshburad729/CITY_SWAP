@@ -30,8 +30,17 @@ A modern full-stack web application enabling travelers, expats, and locals to ex
 | :--- | :--- |
 | **React (Vite)** | Fast development server, modular component architecture, and lightning-fast HMR build. |
 | **Axios** | Promised-based HTTP client for seamless API communication, error handling, and base URL config. |
-| **React Router DOM** | Declarative client-side routing for multi-page navigation. |
-| **Lucide Icons** | Clean modern icons for UI enhancement. |
+| **React Router DOM** | Declarative client-side routing for multi-page navigation (`/`, `/login`, `/signup`, `/dashboard`). |
+| **Framer Motion** | Physics-based fluid animations, tab slider indicators, glassmorphic entrance transitions, and micro-interactions. |
+| **ThreePortalLogins** | Side-by-side composite component rendering all 3 portal login cards (Citizen, Driver, Collector) matching reference specs. |
+| **CitizenPortalLogin** | Dedicated login component with mobile number + OTP authentication, Google SSO, and WhatsApp AI Assistant support. |
+| **DriverPortalLogin** | Dedicated login component with Employee ID + password authentication, route duty management, and support helpline. |
+| **CollectorPortalLogin** | Dedicated login component with Employee ID + password authentication, field operations management, and support helpline. |
+| **React Hook Form** | High-performance, un-opinionated form state management with easy validation integration. |
+| **Zod** | TypeScript-first schema validation for email, password strength, and input rules. |
+| **@hookform/resolvers** | Seamless bridge connecting Zod validation schemas with React Hook Form. |
+| **Lucide Icons** | Clean modern vector icons for UI enhancement. |
+| **Leaflet & React-Leaflet** | Interactive OpenStreetMap rendering, real-time driver GPS tracking, route polyline visualization, and geotagged waste report markers. |
 | **agentation** | In-browser visual annotation toolbar enabling real-time feedback & MCP server sync with AI coding agents. |
 | **Custom CSS Tokens** | Tailored glassmorphism, responsive CSS grid, dark mode, and sleek micro-animations. |
 
@@ -40,6 +49,10 @@ A modern full-stack web application enabling travelers, expats, and locals to ex
 | :--- | :--- |
 | **FastAPI** | High-performance Python web framework with auto-generated OpenAPI / Swagger docs. |
 | **Uvicorn** | Lightning-fast ASGI web server implementation. |
+| **SQLAlchemy** | SQL Toolkit & Object Relational Mapper (ORM) for PostgreSQL/SQLite database persistence. |
+| **Passlib [bcrypt]** | Secure password hashing algorithm for user credentials. |
+| **Python-Jose** | Cryptographic token creation and verification for JWT access tokens. |
+| **Python-Multipart** | Parser for handling image and media file uploads via HTTP multipart forms. |
 | **Pydantic** | Data validation, type safety, and automatic response serialization. |
 | **Python Dotenv** | Secure parsing of `.env` configuration parameters without hardcoding secrets. |
 
@@ -155,6 +168,8 @@ SECRET_KEY="your_jwt_secret_key_change_in_prod"
 | `GET` | `/api/items` | Fetch all active city swap listings |
 | `GET` | `/api/items/{id}` | Fetch specific swap item details by ID |
 | `POST` | `/api/items` | Create a new swap item listing |
+| `POST` | `/api/auth/login` | Authenticate user credentials & issue session token |
+| `POST` | `/api/auth/signup` | Register new user account with role selection |
 
 ---
 
