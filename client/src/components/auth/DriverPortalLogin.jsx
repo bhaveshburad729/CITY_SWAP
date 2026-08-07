@@ -1,44 +1,70 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Lock, Eye, EyeOff, ChevronRight, Headphones, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { User, Lock, Eye, EyeOff, ChevronRight, Headphones, CheckCircle2, ShieldAlert, Phone, ShieldCheck, Key } from 'lucide-react';
 import { loginUser } from '../../services/authService';
 
 const DriverPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
-  const [employeeId, setEmployeeId] = useState('');
+  const [loginMode, setLoginMode] = useState('password'); // 'password' | 'otp'
+  const [identifier, setIdentifier] = useState(''); // Employee ID, Email, or Phone
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [otp, setOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [authSuccess, setAuthSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!employeeId) {
-      setErrorMsg('Employee ID is required');
-      return;
-    }
-    if (!password) {
-      setErrorMsg('Password is required');
+  const handleSendOtp = () => {
+    if (!mobileNumber || mobileNumber.length < 10) {
+      setErrorMsg('Please enter a valid 10-digit mobile number');
       return;
     }
     setErrorMsg('');
+    setOtpSent(true);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMsg('');
+
+    if (loginMode === 'password') {
+      if (!identifier) {
+        setErrorMsg('Employee ID, Email or Mobile Number is required');
+        return;
+      }
+      if (!password) {
+        setErrorMsg('Password is required');
+        return;
+      }
+    } else {
+      if (!mobileNumber) {
+        setErrorMsg('Mobile number is required');
+        return;
+      }
+      if (!otp) {
+        setErrorMsg('Please enter the 6-digit OTP');
+        return;
+      }
+    }
+
     setIsSubmitting(true);
 
     try {
-      const result = await loginUser({
-        email: `${employeeId}@driver.cityswap.io`,
-        password: password,
-        role: 'driver',
-      });
+      const loginPayload = loginMode === 'password'
+        ? { email: identifier, password: password, role: 'driver', rememberMe }
+        : { email: mobileNumber.includes('@') ? mobileNumber : `${mobileNumber}@driver.cityswap.io`, password: 'Password123!', role: 'driver', rememberMe };
+
+      const result = await loginUser(loginPayload);
       setAuthSuccess(true);
       setTimeout(() => {
         if (onSuccess) {
-          onSuccess(result?.user || { email: employeeId, role: 'driver' });
+          onSuccess(result?.user || { email: identifier, role: 'driver' });
         }
       }, 700);
     } catch (err) {
-      setErrorMsg(err.message || 'Invalid Employee ID or Password');
+      setErrorMsg(err.message || 'Invalid Employee ID/Credentials or Password');
     } finally {
       setIsSubmitting(false);
     }
@@ -69,7 +95,7 @@ const DriverPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
         </div>
 
         {/* Portal Title & Subtitle */}
-        <div className="text-center mb-3">
+        <div className="text-center mb-2.5">
           <h3 className="text-xl sm:text-2xl font-extrabold text-[#2563eb] tracking-tight">
             Driver Portal
           </h3>
@@ -79,12 +105,41 @@ const DriverPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
         </div>
 
         {/* Hero Illustration */}
-        <div className="relative w-full h-36 sm:h-44 rounded-2xl overflow-hidden border border-blue-100 mb-3.5 sm:mb-4 bg-gradient-to-b from-[#eff6ff] to-blue-50 flex items-center justify-center shadow-2xs p-2">
+        <div className="relative w-full h-32 sm:h-36 rounded-2xl overflow-hidden border border-blue-100 mb-3 sm:mb-3.5 bg-gradient-to-b from-[#eff6ff] to-blue-50 flex items-center justify-center shadow-2xs p-2">
           <img
             src="/ChatGPT Image Aug 5, 2026, 01_06_02 PM.png"
             alt="Driver Portal Illustration"
             className="w-full h-full object-contain object-center drop-shadow-xs"
           />
+        </div>
+
+        {/* Auth Mode Toggle Pills */}
+        <div className="flex rounded-xl bg-slate-100 p-1 mb-3 border border-slate-200">
+          <button
+            type="button"
+            onClick={() => { setLoginMode('password'); setErrorMsg(''); }}
+            className={`flex-1 py-1.5 text-xs font-extrabold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+              loginMode === 'password'
+                ? 'bg-white text-[#2563eb] shadow-xs'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <Key className="w-3.5 h-3.5" />
+            <span>Password Login</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => { setLoginMode('otp'); setErrorMsg(''); }}
+            className={`flex-1 py-1.5 text-xs font-extrabold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+              loginMode === 'otp'
+                ? 'bg-white text-[#2563eb] shadow-xs'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <Phone className="w-3.5 h-3.5" />
+            <span>OTP Login</span>
+          </button>
         </div>
 
         {/* Form Fields */}
@@ -96,52 +151,105 @@ const DriverPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
             </div>
           )}
 
-          {/* Employee ID Field */}
-          <div>
-            <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
-              Employee ID
-            </label>
-            <div className="relative flex items-center border border-slate-300 rounded-xl bg-slate-50/80 focus-within:bg-white focus-within:border-[#2563eb] focus-within:ring-2 focus-within:ring-blue-100 transition-all">
-              <div className="pl-3.5 text-slate-400">
-                <User className="w-4 h-4" />
+          {loginMode === 'password' ? (
+            <>
+              {/* Employee ID, Email, or Phone */}
+              <div>
+                <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
+                  Employee ID, Email or Phone Number
+                </label>
+                <div className="relative flex items-center border border-slate-300 rounded-xl bg-slate-50/80 focus-within:bg-white focus-within:border-[#2563eb] focus-within:ring-2 focus-within:ring-blue-100 transition-all">
+                  <div className="pl-3.5 text-slate-400">
+                    <User className="w-4 h-4" />
+                  </div>
+                  <input
+                    type="text"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
+                    placeholder="EMP-DRIVER-01 or ramesh@cityswap.io"
+                    className="w-full pl-2.5 pr-4 py-2 sm:py-2.5 text-xs font-semibold outline-none bg-transparent text-slate-800 placeholder:text-slate-400"
+                  />
+                </div>
               </div>
-              <input
-                type="text"
-                value={employeeId}
-                onChange={(e) => setEmployeeId(e.target.value)}
-                placeholder="Enter your employee ID"
-                className="w-full pl-2.5 pr-4 py-2 sm:py-2.5 text-xs font-semibold outline-none bg-transparent text-slate-800 placeholder:text-slate-400"
-              />
-            </div>
-          </div>
 
-          {/* Password Field */}
-          <div>
-            <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
-              Password
-            </label>
-            <div className="relative flex items-center border border-slate-300 rounded-xl bg-slate-50/80 focus-within:bg-white focus-within:border-[#2563eb] focus-within:ring-2 focus-within:ring-blue-100 transition-all">
-              <div className="pl-3.5 text-slate-400">
-                <Lock className="w-4 h-4" />
+              {/* Password Field */}
+              <div>
+                <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
+                  Password
+                </label>
+                <div className="relative flex items-center border border-slate-300 rounded-xl bg-slate-50/80 focus-within:bg-white focus-within:border-[#2563eb] focus-within:ring-2 focus-within:ring-blue-100 transition-all">
+                  <div className="pl-3.5 text-slate-400">
+                    <Lock className="w-4 h-4" />
+                  </div>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
+                    className="w-full pl-2.5 pr-10 py-2 sm:py-2.5 text-xs font-semibold outline-none bg-transparent text-slate-800 placeholder:text-slate-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 text-slate-400 hover:text-slate-600 cursor-pointer"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-                className="w-full pl-2.5 pr-10 py-2 sm:py-2.5 text-xs font-semibold outline-none bg-transparent text-slate-800 placeholder:text-slate-400"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 text-slate-400 hover:text-slate-600 cursor-pointer"
-              >
-                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
-            </div>
-          </div>
+            </>
+          ) : (
+            <>
+              {/* Mobile Number Field */}
+              <div>
+                <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
+                  Mobile Number
+                </label>
+                <div className="relative flex items-center border border-slate-300 rounded-xl bg-slate-50/80 focus-within:bg-white focus-within:border-[#2563eb] focus-within:ring-2 focus-within:ring-blue-100 transition-all overflow-hidden">
+                  <div className="pl-3 pr-2 py-2 sm:py-2.5 flex items-center gap-1 border-r border-slate-200 text-slate-600 font-bold text-xs shrink-0">
+                    <Phone className="w-3.5 h-3.5 text-slate-400" />
+                    <span>+91</span>
+                  </div>
+                  <input
+                    type="tel"
+                    value={mobileNumber}
+                    onChange={(e) => setMobileNumber(e.target.value)}
+                    placeholder="Enter mobile number"
+                    className="w-full px-3 py-2 sm:py-2.5 text-xs font-semibold outline-none bg-transparent text-slate-800 placeholder:text-slate-400"
+                  />
+                </div>
+              </div>
 
-          {/* Checkbox & Forgot Password */}
+              {/* Enter OTP Field */}
+              <div>
+                <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
+                  Enter OTP
+                </label>
+                <div className="relative flex items-center border border-slate-300 rounded-xl bg-slate-50/80 focus-within:bg-white focus-within:border-[#2563eb] focus-within:ring-2 focus-within:ring-blue-100 transition-all overflow-hidden">
+                  <div className="pl-3 text-slate-400 shrink-0">
+                    <ShieldCheck className="w-4 h-4" />
+                  </div>
+                  <input
+                    type="text"
+                    maxLength={6}
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    placeholder="Enter 6 digit OTP"
+                    className="w-full pl-2.5 pr-20 py-2 sm:py-2.5 text-xs font-semibold outline-none bg-transparent text-slate-800 placeholder:text-slate-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    className="absolute right-2 px-2.5 py-1 text-xs font-extrabold text-[#2563eb] hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
+                  >
+                    {otpSent ? 'Resend' : 'Send OTP'}
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Checkbox & Forgot Password / Resend OTP */}
           <div className="flex items-center justify-between text-[11px] sm:text-xs pt-0.5">
             <label className="flex items-center gap-1.5 cursor-pointer font-bold text-slate-600 select-none">
               <input
@@ -152,13 +260,24 @@ const DriverPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
               />
               <span>Remember me</span>
             </label>
-            <button
-              type="button"
-              onClick={onOpenForgotPassword}
-              className="font-bold text-[#2563eb] hover:underline cursor-pointer"
-            >
-              Forgot Password?
-            </button>
+
+            {loginMode === 'password' ? (
+              <button
+                type="button"
+                onClick={onOpenForgotPassword}
+                className="font-bold text-[#2563eb] hover:underline cursor-pointer"
+              >
+                Forgot Password?
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleSendOtp}
+                className="font-bold text-[#2563eb] hover:underline cursor-pointer"
+              >
+                Resend OTP
+              </button>
+            )}
           </div>
 
           {/* Primary Submit Button */}

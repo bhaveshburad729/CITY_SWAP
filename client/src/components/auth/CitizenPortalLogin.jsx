@@ -5,10 +5,10 @@ import { loginUser } from '../../services/authService';
 
 const CitizenPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
   const [loginMode, setLoginMode] = useState('password'); // 'password' | 'otp'
-  const [identifier, setIdentifier] = useState('priya@cityswap.io'); // Email or Phone
-  const [password, setPassword] = useState('Password123!');
+  const [identifier, setIdentifier] = useState(''); // Email or Phone
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [mobileNumber, setMobileNumber] = useState('9876543210');
+  const [mobileNumber, setMobileNumber] = useState('');
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
@@ -23,7 +23,6 @@ const CitizenPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
     }
     setErrorMsg('');
     setOtpSent(true);
-    setOtp('123456'); // Sample OTP prefilled for testing
   };
 
   const handleSubmit = async (e) => {
