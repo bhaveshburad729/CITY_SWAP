@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ onOpenLogin, onOpenSignup }) => {
   return (
     <nav className="w-full bg-white border-b border-gray-200 py-3.5 px-4 md:px-10 sticky top-0 z-50 shadow-2xs">
       <div className="max-w-[1340px] mx-auto flex items-center justify-between">
@@ -53,12 +54,18 @@ const Navbar = () => {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-3">
-          <button className="px-5 py-2 rounded-lg border border-gray-300 text-gray-800 text-sm font-semibold hover:bg-gray-50 transition-all cursor-pointer">
+          <Link 
+            to="/login"
+            className="px-5 py-2 rounded-lg border border-gray-300 text-gray-800 text-sm font-semibold hover:bg-gray-50 hover:border-[#005C2B] hover:text-[#005C2B] transition-all cursor-pointer inline-flex items-center justify-center"
+          >
             Login
-          </button>
-          <button className="px-5 py-2 rounded-lg bg-[#005C2B] text-white text-sm font-bold shadow-xs hover:bg-[#004821] transition-all cursor-pointer">
-            Request Demo
-          </button>
+          </Link>
+          <Link 
+            to="/signup"
+            className="px-5 py-2 rounded-lg bg-[#005C2B] text-white text-sm font-bold shadow-xs hover:bg-[#004821] transition-all cursor-pointer inline-flex items-center justify-center"
+          >
+            Create Account
+          </Link>
         </div>
 
       </div>

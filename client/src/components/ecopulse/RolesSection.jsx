@@ -1,6 +1,26 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const RolesSection = () => {
+  const navigate = useNavigate();
+
+  const handlePortalClick = (role, targetRoute) => {
+    const savedUser = localStorage.getItem('ecopulse_user');
+    if (savedUser) {
+      try {
+        const user = JSON.parse(savedUser);
+        if (user) {
+          navigate(targetRoute);
+          return;
+        }
+      } catch (e) {
+        console.error('Error parsing session user:', e);
+      }
+    }
+    // If not logged in, require login first
+    navigate(`/login?portal=${role}`);
+  };
+
   return (
     <section id="features" className="py-20 px-4 md:px-10 relative overflow-hidden bg-gradient-to-b from-[#eaf4fd] via-[#f2f8fe] to-white">
       {/* Seamless Continuous Sky Background with Soft White Clouds */}
@@ -68,9 +88,13 @@ const RolesSection = () => {
                 />
               </div>
 
-              <a href="#citizen-portal" className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#005C2B] hover:underline">
+              <button 
+                type="button"
+                onClick={() => handlePortalClick('citizen', '/citizen')} 
+                className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#005C2B] hover:underline cursor-pointer"
+              >
                 Explore Citizen Portal →
-              </a>
+              </button>
             </div>
           </div>
 
@@ -119,9 +143,13 @@ const RolesSection = () => {
                 />
               </div>
 
-              <a href="#driver-portal" className="inline-flex items-center gap-1.5 text-xs font-extrabold text-blue-600 hover:underline">
+              <button 
+                type="button"
+                onClick={() => handlePortalClick('driver', '/driver')} 
+                className="inline-flex items-center gap-1.5 text-xs font-extrabold text-blue-600 hover:underline cursor-pointer"
+              >
                 Explore Driver Portal →
-              </a>
+              </button>
             </div>
           </div>
 
@@ -170,9 +198,13 @@ const RolesSection = () => {
                 />
               </div>
 
-              <a href="#collector-portal" className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#005C2B] hover:underline">
+              <button 
+                type="button"
+                onClick={() => handlePortalClick('collector', '/admin')} 
+                className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#005C2B] hover:underline cursor-pointer"
+              >
                 Explore Collector Portal →
-              </a>
+              </button>
             </div>
           </div>
 

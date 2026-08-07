@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createSwapItem } from '../services/api';
 
 const CreateItemModal = ({ isOpen, onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -14,11 +15,16 @@ const CreateItemModal = ({ isOpen, onClose, onSubmit }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.title || !formData.offered_city || !formData.desired_city || !formData.owner) {
       alert('Please fill out all required fields.');
       return;
+    }
+    try {
+      await createSwapItem(formData);
+    } catch (err) {
+      console.warn('Backend item creation fallback');
     }
     onSubmit(formData);
     setFormData({

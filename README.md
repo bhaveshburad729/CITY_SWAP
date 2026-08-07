@@ -191,6 +191,23 @@ SECRET_KEY="your_jwt_secret_key_change_in_prod"
 
 ---
 
+## 🌐 Render Cloud Deployment (`render.yaml`)
+
+This repository contains a full **Render Blueprint (`render.yaml`)** configured for automated deployment in the **Singapore region (`singapore`)**:
+
+1. **Managed PostgreSQL Database (`city-swap-db`)**: Persistent relational database instance.
+2. **Backend Web Service (`city-swap-backend`)**: Python FastAPI backend running with Uvicorn ASGI server.
+3. **Frontend Static Site (`city-swap-frontend`)**: React 18 SPA built with Vite and SPA route fallback to `/index.html`.
+
+### How to Deploy on Render:
+1. Push this repository to **GitHub** / **GitLab**.
+2. Log into your [Render Dashboard](https://dashboard.render.com/).
+3. Click **New +** -> **Blueprint**.
+4. Connect your repository — Render automatically detects [`render.yaml`](file:///c:/Users/Hi/Desktop/CITY_SWAP/render.yaml).
+5. Click **Apply** to deploy the Database, Backend, and Frontend in `singapore` region.
+
+---
+
 ## 🤖 Agentation MCP Server Integration
 
 The **Agentation MCP Server** is completely configured and enabled for real-time visual feedback and automated AI code edits:
