@@ -1,4 +1,5 @@
 import React from 'react';
+import { DOCS_URL, HEALTH_URL } from '../services/api';
 
 const Footer = () => {
   return (
@@ -28,8 +29,8 @@ const Footer = () => {
           <h4>Quick Links</h4>
           <ul>
             <li><a href="#explore">Explore Swaps</a></li>
-            <li><a href="http://127.0.0.1:8000/docs" target="_blank" rel="noreferrer">API Documentation (/docs)</a></li>
-            <li><a href="http://127.0.0.1:8000/api/health" target="_blank" rel="noreferrer">API Health Endpoint</a></li>
+            <li><a href={DOCS_URL} target="_blank" rel="noreferrer">API Documentation (/docs)</a></li>
+            <li><a href={HEALTH_URL} target="_blank" rel="noreferrer">API Health Endpoint</a></li>
           </ul>
         </div>
       </div>

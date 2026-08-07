@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ItemCard from '../components/ItemCard';
+import { DOCS_URL } from '../services/api';
 
 const HomePage = ({ items, loading, error, onOpenCreateModal }) => {
   const [filterCategory, setFilterCategory] = useState('All');
@@ -33,7 +34,7 @@ const HomePage = ({ items, loading, error, onOpenCreateModal }) => {
             <button className="btn btn-primary btn-lg" onClick={onOpenCreateModal}>
               🚀 Post Your First Swap
             </button>
-            <a href="http://127.0.0.1:8000/docs" target="_blank" rel="noreferrer" className="btn btn-outline btn-lg">
+            <a href={DOCS_URL} target="_blank" rel="noreferrer" className="btn btn-outline btn-lg">
               📡 View FastAPI Swagger Docs
             </a>
           </div>
