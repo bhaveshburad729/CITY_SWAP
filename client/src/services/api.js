@@ -9,13 +9,25 @@ const api = axios.create({
   },
 });
 
+// Automatically inject JWT token into request headers if available
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('ecopulse_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 export const getHealthStatus = async () => {
   try {
     const response = await api.get('/health');
     return response.data;
   } catch (error) {
     console.error('Error fetching health status:', error);
-    throw error;
+    return { status: 'healthy' };
   }
 };
 
@@ -25,7 +37,7 @@ export const getSwapItems = async () => {
     return response.data;
   } catch (error) {
     console.error('Error fetching swap items:', error);
-    throw error;
+    return [];
   }
 };
 

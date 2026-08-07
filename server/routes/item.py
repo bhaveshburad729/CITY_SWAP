@@ -1,19 +1,21 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
 from typing import List
+from server.database.db import get_db
 from server.schemas.item import ItemCreate, ItemResponse
 from server.services.item_service import ItemService
 
 router = APIRouter(prefix="/api/items", tags=["Items"])
 
 @router.get("", response_model=List[ItemResponse])
-def get_items():
+def get_items(db: Session = Depends(get_db)):
     """Retrieve all available swap items."""
-    return ItemService.get_all_items()
+    return ItemService.get_all_items(db)
 
 @router.get("/{item_id}", response_model=ItemResponse)
-def get_item(item_id: int):
+def get_item(item_id: int, db: Session = Depends(get_db)):
     """Retrieve a single swap item by ID."""
-    item = ItemService.get_item_by_id(item_id)
+    item = ItemService.get_item_by_id(db, item_id)
     if not item:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -22,6 +24,6 @@ def get_item(item_id: int):
     return item
 
 @router.post("", response_model=ItemResponse, status_code=status.HTTP_201_CREATED)
-def create_item(item_data: ItemCreate):
+def create_item(item_data: ItemCreate, db: Session = Depends(get_db)):
     """Create a new swap item listing."""
-    return ItemService.create_item(item_data)
+    return ItemService.create_item(db, item_data)
