@@ -40,6 +40,16 @@ class SignupRequest(BaseModel):
             raise ValueError("Please provide a valid email address.")
         return v
 
+    @field_validator("phone")
+    @classmethod
+    def validate_phone_format(cls, v: Optional[str]) -> Optional[str]:
+        if not v:
+            return ""
+        clean = v.strip().replace(" ", "").replace("-", "")
+        if len(clean) < 10:
+            raise ValueError("Phone number must be at least 10 digits.")
+        return clean
+
     @field_validator("password")
     @classmethod
     def validate_strong_password(cls, v: str) -> str:

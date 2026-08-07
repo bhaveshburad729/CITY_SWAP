@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, ShieldCheck, ChevronRight, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { Phone, ShieldCheck, ChevronRight, CheckCircle2, ShieldAlert, Lock, Eye, EyeOff, Mail, Key } from 'lucide-react';
 import { loginUser } from '../../services/authService';
 
 const CitizenPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
-  const [mobileNumber, setMobileNumber] = useState('');
+  const [loginMode, setLoginMode] = useState('password'); // 'password' | 'otp'
+  const [identifier, setIdentifier] = useState('priya@cityswap.io'); // Email or Phone
+  const [password, setPassword] = useState('Password123!');
+  const [showPassword, setShowPassword] = useState(false);
+  const [mobileNumber, setMobileNumber] = useState('9876543210');
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
@@ -19,33 +23,50 @@ const CitizenPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
     }
     setErrorMsg('');
     setOtpSent(true);
-    setOtp('123456'); // Pre-fill sample OTP for smooth UX test
+    setOtp('123456'); // Sample OTP prefilled for testing
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!mobileNumber) {
-      setErrorMsg('Mobile number is required');
-      return;
-    }
     setErrorMsg('');
+
+    if (loginMode === 'password') {
+      if (!identifier) {
+        setErrorMsg('Please enter your email or mobile number');
+        return;
+      }
+      if (!password) {
+        setErrorMsg('Please enter your password');
+        return;
+      }
+    } else {
+      if (!mobileNumber) {
+        setErrorMsg('Mobile number is required');
+        return;
+      }
+      if (!otp) {
+        setErrorMsg('Please enter the 6-digit OTP');
+        return;
+      }
+    }
+
     setIsSubmitting(true);
 
     try {
-      // Authenticate citizen role
-      const result = await loginUser({
-        email: `${mobileNumber}@citizen.cityswap.io`,
-        password: 'password123',
-        role: 'citizen',
-      });
+      // Authenticate citizen role with backend database
+      const loginPayload = loginMode === 'password'
+        ? { email: identifier, password: password, role: 'citizen', rememberMe }
+        : { email: mobileNumber.includes('@') ? mobileNumber : `${mobileNumber}@citizen.cityswap.io`, password: 'Password123!', role: 'citizen', rememberMe };
+
+      const result = await loginUser(loginPayload);
       setAuthSuccess(true);
       setTimeout(() => {
         if (onSuccess) {
-          onSuccess(result?.user || { email: mobileNumber, role: 'citizen' });
+          onSuccess(result?.user || { email: identifier, role: 'citizen' });
         }
       }, 700);
     } catch (err) {
-      setErrorMsg(err.message || 'Verification failed. Please try again.');
+      setErrorMsg(err.message || 'Authentication failed. Please verify your credentials.');
     } finally {
       setIsSubmitting(false);
     }
@@ -76,7 +97,7 @@ const CitizenPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
         </div>
 
         {/* Portal Title & Subtitle */}
-        <div className="text-center mb-3">
+        <div className="text-center mb-2.5">
           <h3 className="text-xl sm:text-2xl font-extrabold text-[#16a34a] tracking-tight">
             Citizen Portal
           </h3>
@@ -86,12 +107,41 @@ const CitizenPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
         </div>
 
         {/* Hero Illustration */}
-        <div className="relative w-full h-36 sm:h-44 rounded-2xl overflow-hidden border border-emerald-100 mb-3.5 sm:mb-4 bg-gradient-to-b from-[#eaf7ee] to-emerald-50 flex items-center justify-center shadow-2xs p-2">
+        <div className="relative w-full h-32 sm:h-36 rounded-2xl overflow-hidden border border-emerald-100 mb-3 sm:mb-3.5 bg-gradient-to-b from-[#eaf7ee] to-emerald-50 flex items-center justify-center shadow-2xs p-2">
           <img
             src="/ChatGPT Image Aug 5, 2026, 01_06_09 PM.png"
             alt="Citizen Portal Illustration"
             className="w-full h-full object-contain object-center drop-shadow-xs"
           />
+        </div>
+
+        {/* Auth Mode Toggle Pills */}
+        <div className="flex rounded-xl bg-slate-100 p-1 mb-3 border border-slate-200">
+          <button
+            type="button"
+            onClick={() => { setLoginMode('password'); setErrorMsg(''); }}
+            className={`flex-1 py-1.5 text-xs font-extrabold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+              loginMode === 'password'
+                ? 'bg-white text-[#16a34a] shadow-xs'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <Key className="w-3.5 h-3.5" />
+            <span>Password Login</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => { setLoginMode('otp'); setErrorMsg(''); }}
+            className={`flex-1 py-1.5 text-xs font-extrabold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+              loginMode === 'otp'
+                ? 'bg-white text-[#16a34a] shadow-xs'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <Phone className="w-3.5 h-3.5" />
+            <span>OTP Login</span>
+          </button>
         </div>
 
         {/* Form Fields */}
@@ -103,54 +153,105 @@ const CitizenPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
             </div>
           )}
 
-          {/* Mobile Number Field */}
-          <div>
-            <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
-              Mobile Number
-            </label>
-            <div className="relative flex items-center border border-slate-300 rounded-xl bg-slate-50/80 focus-within:bg-white focus-within:border-[#16a34a] focus-within:ring-2 focus-within:ring-emerald-100 transition-all overflow-hidden">
-              <div className="pl-3 pr-2 py-2 sm:py-2.5 flex items-center gap-1 border-r border-slate-200 text-slate-600 font-bold text-xs shrink-0">
-                <Phone className="w-3.5 h-3.5 text-slate-400" />
-                <span>+91</span>
+          {loginMode === 'password' ? (
+            <>
+              {/* Email / Mobile Identifier */}
+              <div>
+                <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
+                  Email or Mobile Number
+                </label>
+                <div className="relative flex items-center border border-slate-300 rounded-xl bg-slate-50/80 focus-within:bg-white focus-within:border-[#16a34a] focus-within:ring-2 focus-within:ring-emerald-100 transition-all overflow-hidden">
+                  <div className="pl-3.5 text-slate-400">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <input
+                    type="text"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
+                    placeholder="Enter email or mobile number"
+                    className="w-full pl-2.5 pr-4 py-2 sm:py-2.5 text-xs font-semibold outline-none bg-transparent text-slate-800 placeholder:text-slate-400"
+                  />
+                </div>
               </div>
-              <input
-                type="tel"
-                value={mobileNumber}
-                onChange={(e) => setMobileNumber(e.target.value)}
-                placeholder="Enter mobile number"
-                className="w-full px-3 py-2 sm:py-2.5 text-xs font-semibold outline-none bg-transparent text-slate-800 placeholder:text-slate-400"
-              />
-            </div>
-          </div>
 
-          {/* Enter OTP Field */}
-          <div>
-            <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
-              Enter OTP
-            </label>
-            <div className="relative flex items-center border border-slate-300 rounded-xl bg-slate-50/80 focus-within:bg-white focus-within:border-[#16a34a] focus-within:ring-2 focus-within:ring-emerald-100 transition-all overflow-hidden">
-              <div className="pl-3 text-slate-400 shrink-0">
-                <ShieldCheck className="w-4 h-4" />
+              {/* Password Field */}
+              <div>
+                <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
+                  Password
+                </label>
+                <div className="relative flex items-center border border-slate-300 rounded-xl bg-slate-50/80 focus-within:bg-white focus-within:border-[#16a34a] focus-within:ring-2 focus-within:ring-emerald-100 transition-all">
+                  <div className="pl-3.5 text-slate-400">
+                    <Lock className="w-4 h-4" />
+                  </div>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
+                    className="w-full pl-2.5 pr-10 py-2 sm:py-2.5 text-xs font-semibold outline-none bg-transparent text-slate-800 placeholder:text-slate-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 text-slate-400 hover:text-slate-600 cursor-pointer"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
-              <input
-                type="text"
-                maxLength={6}
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                placeholder="Enter 6 digit OTP"
-                className="w-full pl-2.5 pr-20 py-2 sm:py-2.5 text-xs font-semibold outline-none bg-transparent text-slate-800 placeholder:text-slate-400"
-              />
-              <button
-                type="button"
-                onClick={handleSendOtp}
-                className="absolute right-2 px-2.5 py-1 text-xs font-extrabold text-[#16a34a] hover:bg-emerald-50 rounded-lg transition-colors cursor-pointer"
-              >
-                {otpSent ? 'Resend' : 'Send OTP'}
-              </button>
-            </div>
-          </div>
+            </>
+          ) : (
+            <>
+              {/* Mobile Number Field */}
+              <div>
+                <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
+                  Mobile Number
+                </label>
+                <div className="relative flex items-center border border-slate-300 rounded-xl bg-slate-50/80 focus-within:bg-white focus-within:border-[#16a34a] focus-within:ring-2 focus-within:ring-emerald-100 transition-all overflow-hidden">
+                  <div className="pl-3 pr-2 py-2 sm:py-2.5 flex items-center gap-1 border-r border-slate-200 text-slate-600 font-bold text-xs shrink-0">
+                    <Phone className="w-3.5 h-3.5 text-slate-400" />
+                    <span>+91</span>
+                  </div>
+                  <input
+                    type="tel"
+                    value={mobileNumber}
+                    onChange={(e) => setMobileNumber(e.target.value)}
+                    placeholder="Enter mobile number"
+                    className="w-full px-3 py-2 sm:py-2.5 text-xs font-semibold outline-none bg-transparent text-slate-800 placeholder:text-slate-400"
+                  />
+                </div>
+              </div>
 
-          {/* Checkbox & Resend OTP */}
+              {/* Enter OTP Field */}
+              <div>
+                <label className="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1">
+                  Enter OTP
+                </label>
+                <div className="relative flex items-center border border-slate-300 rounded-xl bg-slate-50/80 focus-within:bg-white focus-within:border-[#16a34a] focus-within:ring-2 focus-within:ring-emerald-100 transition-all overflow-hidden">
+                  <div className="pl-3 text-slate-400 shrink-0">
+                    <ShieldCheck className="w-4 h-4" />
+                  </div>
+                  <input
+                    type="text"
+                    maxLength={6}
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    placeholder="Enter 6 digit OTP"
+                    className="w-full pl-2.5 pr-20 py-2 sm:py-2.5 text-xs font-semibold outline-none bg-transparent text-slate-800 placeholder:text-slate-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    className="absolute right-2 px-2.5 py-1 text-xs font-extrabold text-[#16a34a] hover:bg-emerald-50 rounded-lg transition-colors cursor-pointer"
+                  >
+                    {otpSent ? 'Resend' : 'Send OTP'}
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Checkbox & Forgot Password / Resend OTP */}
           <div className="flex items-center justify-between text-[11px] sm:text-xs pt-0.5">
             <label className="flex items-center gap-1.5 cursor-pointer font-bold text-slate-600 select-none">
               <input
@@ -161,13 +262,24 @@ const CitizenPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
               />
               <span>Remember me</span>
             </label>
-            <button
-              type="button"
-              onClick={handleSendOtp}
-              className="font-bold text-[#16a34a] hover:underline cursor-pointer"
-            >
-              Resend OTP
-            </button>
+
+            {loginMode === 'password' ? (
+              <button
+                type="button"
+                onClick={onOpenForgotPassword}
+                className="font-bold text-[#16a34a] hover:underline cursor-pointer"
+              >
+                Forgot Password?
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleSendOtp}
+                className="font-bold text-[#16a34a] hover:underline cursor-pointer"
+              >
+                Resend OTP
+              </button>
+            )}
           </div>
 
           {/* Primary Submit Button */}

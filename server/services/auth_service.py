@@ -14,6 +14,7 @@ class AuthService:
             {
                 "full_name": "Priya Patil",
                 "email": "priya@cityswap.io",
+                "phone": "9876543210",
                 "employee_id": None,
                 "password": "Password123!",
                 "role": "citizen",
@@ -22,6 +23,7 @@ class AuthService:
             {
                 "full_name": "Ramesh Yadav",
                 "email": "ramesh@cityswap.io",
+                "phone": "9876543211",
                 "employee_id": "EMP-DRIVER-01",
                 "password": "Password123!",
                 "role": "driver",
@@ -30,6 +32,7 @@ class AuthService:
             {
                 "full_name": "Suresh Sanitation",
                 "email": "collector@cityswap.io",
+                "phone": "9876543212",
                 "employee_id": "EMP-COLL-01",
                 "password": "Password123!",
                 "role": "collector",
@@ -38,6 +41,7 @@ class AuthService:
             {
                 "full_name": "Admin Officer",
                 "email": "admin@cityswap.io",
+                "phone": "9876543213",
                 "employee_id": "EMP-ADMIN-01",
                 "password": "Password123!",
                 "role": "admin",
@@ -51,12 +55,16 @@ class AuthService:
                 new_u = User(
                     full_name=acc["full_name"],
                     email=acc["email"],
+                    phone=acc.get("phone"),
                     employee_id=acc["employee_id"],
                     hashed_password=hash_password(acc["password"]),
                     role=acc["role"],
                     ward=acc["ward"]
                 )
                 db.add(new_u)
+            else:
+                if not existing.phone and acc.get("phone"):
+                    existing.phone = acc.get("phone")
         db.commit()
 
     @staticmethod
@@ -101,6 +109,7 @@ class AuthService:
                 email=new_user.email,
                 role=new_user.role,
                 ward=new_user.ward,
+                phone=new_user.phone,
                 employee_id=new_user.employee_id,
                 eco_coins=new_user.eco_coins
             )
@@ -111,9 +120,15 @@ class AuthService:
         # Ensure demo accounts exist
         AuthService.seed_demo_users(db)
 
-        # Query database for user by email or employee_id
+        clean_ident = payload.email.strip()
+        clean_phone = clean_ident.replace("+91", "").replace(" ", "").replace("-", "")
+
+        # Query database for user by email, employee_id, or phone
         user = db.query(User).filter(
-            (User.email == payload.email) | (User.employee_id == payload.email)
+            (User.email == clean_ident.lower()) |
+            (User.employee_id == clean_ident) |
+            (User.phone == clean_ident) |
+            (User.phone == clean_phone)
         ).first()
 
         # Constant-time security check against user enumeration timing attacks

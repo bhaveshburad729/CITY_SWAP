@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Mail, Lock, Eye, EyeOff, ShieldCheck, CheckCircle2, ShieldAlert, ArrowRight, Sparkles, UserCheck, Truck, ShoppingCart, Check } from 'lucide-react';
+import { User, Mail, Phone, Lock, Eye, EyeOff, ShieldCheck, CheckCircle2, ShieldAlert, ArrowRight, Sparkles, UserCheck, Truck, ShoppingCart } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -10,11 +10,13 @@ const signupSchema = z
   .object({
     name: z.string().min(2, 'Name must be at least 2 characters'),
     email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
+    phone: z.string().min(10, 'Phone number must be at least 10 digits'),
     password: z
       .string()
       .min(8, 'Password must be at least 8 characters')
       .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-      .regex(/[0-9]/, 'Password must contain at least one number'),
+      .regex(/[0-9]/, 'Password must contain at least one number')
+      .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character (!@#$%^&*)'),
     confirmPassword: z.string().min(1, 'Please confirm your password'),
     acceptTerms: z.literal(true, {
       errorMap: () => ({ message: 'You must accept the Terms' }),
@@ -37,7 +39,7 @@ const getPasswordStrength = (password) => {
   if (score === 1) return { score: 1, label: 'Weak', color: 'bg-red-500' };
   if (score === 2) return { score: 2, label: 'Fair', color: 'bg-orange-500' };
   if (score === 3) return { score: 3, label: 'Good', color: 'bg-amber-500' };
-  if (score >= 4) return { score: 4, label: 'Strong', color: 'bg-[#005C2B]' };
+  if (score >= 4) return { score: 4, label: 'Strong & Secure', color: 'bg-[#005C2B]' };
 
   return { score: 0, label: '', color: 'bg-gray-200' };
 };
@@ -59,6 +61,7 @@ const SignupForm = ({ onSwitchToLogin, onRoleChange, onSuccess }) => {
     defaultValues: {
       name: '',
       email: '',
+      phone: '',
       password: '',
       confirmPassword: '',
       acceptTerms: false,
@@ -79,6 +82,7 @@ const SignupForm = ({ onSwitchToLogin, onRoleChange, onSuccess }) => {
       const res = await signupUser({
         fullName: data.name,
         email: data.email,
+        phone: data.phone,
         password: data.password,
         role: selectedRole
       });
@@ -109,7 +113,7 @@ const SignupForm = ({ onSwitchToLogin, onRoleChange, onSuccess }) => {
           Create Account
         </h2>
         <p className="text-[11px] sm:text-xs font-semibold text-gray-600 mt-0.5 leading-relaxed">
-          Join citizens, drivers & collectors building cleaner cities.
+          Enter your Email, Phone Number & Secure Password to get started.
         </p>
       </div>
 
@@ -198,7 +202,7 @@ const SignupForm = ({ onSwitchToLogin, onRoleChange, onSuccess }) => {
           )}
         </div>
 
-        {/* Email */}
+        {/* Email Address */}
         <div>
           <label className="block text-[11px] font-bold text-gray-800 uppercase tracking-wider mb-1">
             Email Address
@@ -226,10 +230,37 @@ const SignupForm = ({ onSwitchToLogin, onRoleChange, onSuccess }) => {
           )}
         </div>
 
-        {/* Password */}
+        {/* Mobile Phone Number */}
         <div>
           <label className="block text-[11px] font-bold text-gray-800 uppercase tracking-wider mb-1">
-            Password
+            Mobile Phone Number
+          </label>
+          <div className="relative flex items-center border rounded-xl overflow-hidden bg-white/90 focus-within:border-[#005C2B] focus-within:ring-2 focus-within:ring-[#005C2B]/10 transition-all">
+            <div className="pl-3 pr-2 py-2 flex items-center gap-1 border-r border-gray-200 text-gray-600 font-bold text-xs shrink-0">
+              <Phone className="w-3.5 h-3.5 text-gray-400" />
+              <span>+91</span>
+            </div>
+            <input
+              {...register('phone')}
+              type="tel"
+              placeholder="9876543210"
+              className={`w-full px-3 py-2 text-xs font-medium outline-none bg-transparent ${
+                errors.phone ? 'text-red-600' : 'text-gray-800'
+              }`}
+            />
+          </div>
+          {errors.phone && (
+            <p className="mt-0.5 text-[10px] font-bold text-red-500 flex items-center gap-1">
+              <ShieldAlert className="w-3 h-3" />
+              {errors.phone.message}
+            </p>
+          )}
+        </div>
+
+        {/* Secure Password */}
+        <div>
+          <label className="block text-[11px] font-bold text-gray-800 uppercase tracking-wider mb-1">
+            Secure Password
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
@@ -253,6 +284,25 @@ const SignupForm = ({ onSwitchToLogin, onRoleChange, onSuccess }) => {
               {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
             </button>
           </div>
+
+          {/* Password Strength Indicator Bar */}
+          {watchPassword && (
+            <div className="mt-1.5 space-y-1">
+              <div className="flex items-center justify-between text-[10px] font-extrabold text-gray-600">
+                <span>Password Strength:</span>
+                <span className={`font-bold ${strength.score >= 3 ? 'text-[#005C2B]' : 'text-orange-500'}`}>
+                  {strength.label}
+                </span>
+              </div>
+              <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden flex gap-1">
+                <div className={`h-full flex-1 transition-all ${strength.score >= 1 ? strength.color : 'bg-gray-200'}`} />
+                <div className={`h-full flex-1 transition-all ${strength.score >= 2 ? strength.color : 'bg-gray-200'}`} />
+                <div className={`h-full flex-1 transition-all ${strength.score >= 3 ? strength.color : 'bg-gray-200'}`} />
+                <div className={`h-full flex-1 transition-all ${strength.score >= 4 ? strength.color : 'bg-gray-200'}`} />
+              </div>
+            </div>
+          )}
+
           {errors.password && (
             <p className="mt-0.5 text-[10px] font-bold text-red-500 flex items-center gap-1">
               <ShieldAlert className="w-3 h-3" />
