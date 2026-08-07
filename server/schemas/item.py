@@ -1,20 +1,25 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import Optional
 
-class ItemBase(BaseModel):
-    title: str = Field(..., example="Vintage Bicycle")
-    category: str = Field(..., example="Transportation")
-    offered_city: str = Field(..., example="New York")
-    desired_city: str = Field(..., example="London")
-    description: str = Field(..., example="Restored 1980s road bike.")
-    owner: str = Field(..., example="Alice")
+class ItemCreate(BaseModel):
+    title: str
+    category: str
+    offered_city: str
+    desired_city: str
+    description: Optional[str] = None
+    image_url: Optional[str] = None
+    owner: Optional[str] = "Anonymous"
 
-class ItemCreate(ItemBase):
-    pass
-
-class ItemResponse(ItemBase):
+class ItemResponse(BaseModel):
     id: int
-    status: str = "Available"
+    title: str
+    category: str
+    offered_city: str
+    desired_city: str
+    description: Optional[str] = None
+    owner: str
+    status: str
+    image_url: Optional[str] = None
 
     class Config:
         from_attributes = True
