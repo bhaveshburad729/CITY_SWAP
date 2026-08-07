@@ -12,6 +12,7 @@ import SignupPage from './pages/SignupPage';
 import DashboardPage from './pages/DashboardPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import DriverDashboardPage from './pages/DriverDashboardPage';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 import { Agentation } from 'agentation';
 import './index.css';
 import './App.css';
@@ -70,12 +71,38 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/citizen" element={<DashboardPage />} />
+
+        {/* Protected Routes with Role-Based Access Control (RBAC) */}
+        <Route
+          path="/citizen"
+          element={
+            <ProtectedRoute allowedRoles={['citizen', 'admin']}>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/citzen" element={<Navigate to="/citizen" replace />} />
         <Route path="/dashboard" element={<Navigate to="/citizen" replace />} />
-        <Route path="/admin" element={<AdminDashboardPage />} />
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRoles={['admin', 'collector']}>
+              <AdminDashboardPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/collector" element={<Navigate to="/admin" replace />} />
-        <Route path="/driver" element={<DriverDashboardPage />} />
+
+        <Route
+          path="/driver"
+          element={
+            <ProtectedRoute allowedRoles={['driver', 'admin']}>
+              <DriverDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 

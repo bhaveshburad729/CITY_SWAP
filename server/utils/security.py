@@ -52,7 +52,23 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
+            detail="Could not validate credentials. Authorization required.",
             headers={"WWW-Authenticate": "Bearer"},
         )
     return user
+
+def get_current_admin_user(current_user: User = Depends(get_current_user)) -> User:
+    if not current_user or current_user.role.lower() not in ["admin", "collector"]:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access forbidden: Admin or Collector privileges required."
+        )
+    return current_user
+
+def get_current_driver_user(current_user: User = Depends(get_current_user)) -> User:
+    if not current_user or current_user.role.lower() not in ["driver", "admin"]:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Access forbidden: Driver privileges required."
+        )
+    return current_user

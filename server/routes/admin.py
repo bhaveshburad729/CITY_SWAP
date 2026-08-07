@@ -6,19 +6,21 @@ from server.schemas.admin import AdminMetricsResponse, AssignTaskRequest
 from server.schemas.complaint import ComplaintResponse
 from server.services.admin_service import AdminService
 from server.services.complaint_service import ComplaintService
+from server.utils.security import get_current_admin_user
+from server.models.user import User
 
 router = APIRouter(prefix="/api/admin", tags=["Admin Operations"])
 
 @router.get("/metrics", response_model=AdminMetricsResponse)
-def get_admin_metrics(db: Session = Depends(get_db)):
+def get_admin_metrics(db: Session = Depends(get_db), current_admin: User = Depends(get_current_admin_user)):
     return AdminService.get_dashboard_metrics(db)
 
 @router.get("/complaints", response_model=List[ComplaintResponse])
-def get_admin_complaints(db: Session = Depends(get_db)):
+def get_admin_complaints(db: Session = Depends(get_db), current_admin: User = Depends(get_current_admin_user)):
     return ComplaintService.get_all_complaints(db)
 
 @router.post("/assign-task", response_model=ComplaintResponse)
-def assign_task(payload: AssignTaskRequest, db: Session = Depends(get_db)):
+def assign_task(payload: AssignTaskRequest, db: Session = Depends(get_db), current_admin: User = Depends(get_current_admin_user)):
     try:
         return ComplaintService.assign_driver(db, payload.complaint_id, payload.driver_name)
     except Exception as e:
@@ -28,7 +30,7 @@ def assign_task(payload: AssignTaskRequest, db: Session = Depends(get_db)):
         )
 
 @router.get("/export-csv")
-def export_complaints_csv(db: Session = Depends(get_db)):
+def export_complaints_csv(db: Session = Depends(get_db), current_admin: User = Depends(get_current_admin_user)):
     try:
         csv_data = AdminService.generate_complaints_csv(db)
         return Response(
