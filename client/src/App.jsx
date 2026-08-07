@@ -1,42 +1,87 @@
 import React, { useState } from 'react';
-import Navbar from './components/Navbar';
-import HomePage from './pages/HomePage';
-import Footer from './components/Footer';
-import CreateItemModal from './components/CreateItemModal';
-import { useSwapItems } from './hooks/useSwapItems';
+import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import Navbar from './components/ecopulse/Navbar';
+import HeroSection from './components/ecopulse/HeroSection';
+import RolesSection from './components/ecopulse/RolesSection';
+import HowItWorksSection from './components/ecopulse/HowItWorksSection';
+import ImpactSection from './components/ecopulse/ImpactSection';
+import FooterSection from './components/ecopulse/FooterSection';
+import AuthModal from './components/auth/AuthModal';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import DashboardPage from './pages/DashboardPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import DriverDashboardPage from './pages/DriverDashboardPage';
 import { Agentation } from 'agentation';
 import './index.css';
 import './App.css';
 
-function App() {
-  const { items, health, loading, error, addItem } = useSwapItems();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+function LandingPage() {
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState('login'); // 'login' | 'signup'
+  const navigate = useNavigate();
 
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleOpenLogin = () => {
+    navigate('/login');
+  };
+
+  const handleOpenSignup = () => {
+    navigate('/signup');
+  };
+
+  const handleAuthSuccess = (user) => {
+    localStorage.setItem('ecopulse_user', JSON.stringify(user));
+    if (user?.role === 'driver') {
+      navigate('/driver');
+    } else if (user?.role === 'admin' || user?.role === 'collector') {
+      navigate('/admin');
+    } else {
+      navigate('/citizen');
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans relative overflow-x-hidden">
-      <Navbar onOpenCreateModal={handleOpenModal} health={health} />
+    <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-[#005C2B] selection:text-white relative overflow-x-hidden">
+      {/* Main Page Header & Sections */}
+      <Navbar onOpenLogin={handleOpenLogin} onOpenSignup={handleOpenSignup} />
+      <main className="relative z-10">
+        <HeroSection />
+        <RolesSection />
+        <HowItWorksSection />
+        <ImpactSection />
+      </main>
+      <FooterSection />
 
-      <HomePage
-        items={items}
-        loading={loading}
-        error={error}
-        onOpenCreateModal={handleOpenModal}
+      {/* Floating Auth Experience Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        initialMode={authModalMode}
+        onSuccess={handleAuthSuccess}
       />
+    </div>
+  );
+}
 
-      <Footer />
-
-      <CreateItemModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onSubmit={addItem}
-      />
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/citizen" element={<DashboardPage />} />
+        <Route path="/citzen" element={<Navigate to="/citizen" replace />} />
+        <Route path="/dashboard" element={<Navigate to="/citizen" replace />} />
+        <Route path="/admin" element={<AdminDashboardPage />} />
+        <Route path="/collector" element={<Navigate to="/admin" replace />} />
+        <Route path="/driver" element={<DriverDashboardPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
 
       {/* Agentation Visual Feedback & Annotation Toolbar */}
       {import.meta.env.DEV && <Agentation />}
-    </div>
+    </Router>
   );
 }
 
