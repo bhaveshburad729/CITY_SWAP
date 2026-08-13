@@ -63,15 +63,15 @@ const HowItWorksSection = () => {
             <div key={idx} className="relative flex flex-col items-center group">
               
               {/* Step Card */}
-              <div className="bg-white/95 backdrop-blur-md border border-gray-200/90 rounded-3xl p-6 w-full h-full flex flex-col items-center text-center shadow-md hover:shadow-xl hover:border-[#005C2B]/50 transition-all duration-300 transform hover:-translate-y-1">
+              <div className="bg-white/95 backdrop-blur-md border border-gray-200/90 rounded-3xl p-6 w-full h-full flex flex-col items-center text-center shadow-md hover:shadow-xl hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-1">
                 
                 {/* Number Badge */}
-                <div className="w-8 h-8 rounded-full bg-[#005C2B] text-white text-xs font-black flex items-center justify-center mb-4 shadow-xs">
+                <div className="w-8 h-8 rounded-full bg-primary text-white text-xs font-black flex items-center justify-center mb-4 shadow-xs">
                   {step.num}
                 </div>
 
                 {/* Big Prominent Icon Container (Larger & Crisp) */}
-                <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${step.gradient} border border-emerald-200/80 flex items-center justify-center text-4xl mb-4 shadow-sm group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${step.gradient} border border-secondary-container/80 flex items-center justify-center text-4xl mb-4 shadow-sm group-hover:scale-110 transition-transform duration-300`}>
                   <span className="drop-shadow-sm select-none">{step.icon}</span>
                 </div>
 
@@ -84,7 +84,7 @@ const HowItWorksSection = () => {
 
               {/* Connecting Arrow for desktop */}
               {idx < steps.length - 1 && (
-                <div className="hidden md:flex absolute -right-3.5 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white border border-gray-200 text-[#005C2B] font-bold text-sm items-center justify-center shadow-sm">
+                <div className="hidden md:flex absolute -right-3.5 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white border border-gray-200 text-primary font-bold text-sm items-center justify-center shadow-sm">
                   ›
                 </div>
               )}

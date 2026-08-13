@@ -48,7 +48,7 @@ const RolesSection = () => {
             <div>
               {/* Header Icon + Titles */}
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-[#005C2B] flex items-center justify-center text-white text-lg shadow-2xs">
+                <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white text-lg shadow-2xs">
                   👥
                 </div>
                 <div>
@@ -60,19 +60,19 @@ const RolesSection = () => {
               {/* Checkpoint List */}
               <ul className="space-y-3 my-6 text-xs font-bold text-gray-700">
                 <li className="flex items-center gap-2.5">
-                  <span className="w-4 h-4 rounded-full bg-[#005C2B] text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+                  <span className="w-4 h-4 rounded-full bg-primary text-white text-[10px] flex items-center justify-center font-bold">✓</span>
                   <span>Report waste in seconds</span>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <span className="w-4 h-4 rounded-full bg-[#005C2B] text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+                  <span className="w-4 h-4 rounded-full bg-primary text-white text-[10px] flex items-center justify-center font-bold">✓</span>
                   <span>Track complaint status</span>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <span className="w-4 h-4 rounded-full bg-[#005C2B] text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+                  <span className="w-4 h-4 rounded-full bg-primary text-white text-[10px] flex items-center justify-center font-bold">✓</span>
                   <span>Earn EcoCoins & rewards</span>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <span className="w-4 h-4 rounded-full bg-[#005C2B] text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+                  <span className="w-4 h-4 rounded-full bg-primary text-white text-[10px] flex items-center justify-center font-bold">✓</span>
                   <span>AI-powered assistance</span>
                 </li>
               </ul>
@@ -91,7 +91,7 @@ const RolesSection = () => {
               <button 
                 type="button"
                 onClick={() => handlePortalClick('citizen', '/citizen')} 
-                className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#005C2B] hover:underline cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-extrabold text-primary hover:underline cursor-pointer"
               >
                 Explore Citizen Portal →
               </button>
@@ -158,7 +158,7 @@ const RolesSection = () => {
             <div>
               {/* Header Icon + Titles */}
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-[#005C2B] flex items-center justify-center text-white text-lg shadow-2xs">
+                <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white text-lg shadow-2xs">
                   🛒
                 </div>
                 <div>
@@ -170,19 +170,19 @@ const RolesSection = () => {
               {/* Checkpoint List */}
               <ul className="space-y-3 my-6 text-xs font-bold text-gray-700">
                 <li className="flex items-center gap-2.5">
-                  <span className="w-4 h-4 rounded-full bg-[#005C2B] text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+                  <span className="w-4 h-4 rounded-full bg-primary text-white text-[10px] flex items-center justify-center font-bold">✓</span>
                   <span>Bin checklist & verification</span>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <span className="w-4 h-4 rounded-full bg-[#005C2B] text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+                  <span className="w-4 h-4 rounded-full bg-primary text-white text-[10px] flex items-center justify-center font-bold">✓</span>
                   <span>Before/after photo upload</span>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <span className="w-4 h-4 rounded-full bg-[#005C2B] text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+                  <span className="w-4 h-4 rounded-full bg-primary text-white text-[10px] flex items-center justify-center font-bold">✓</span>
                   <span>Report issues instantly</span>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <span className="w-4 h-4 rounded-full bg-[#005C2B] text-white text-[10px] flex items-center justify-center font-bold">✓</span>
+                  <span className="w-4 h-4 rounded-full bg-primary text-white text-[10px] flex items-center justify-center font-bold">✓</span>
                   <span>Track daily performance</span>
                 </li>
               </ul>
@@ -201,7 +201,7 @@ const RolesSection = () => {
               <button 
                 type="button"
                 onClick={() => handlePortalClick('collector', '/admin')} 
-                className="inline-flex items-center gap-1.5 text-xs font-extrabold text-[#005C2B] hover:underline cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs font-extrabold text-primary hover:underline cursor-pointer"
               >
                 Explore Collector Portal →
               </button>

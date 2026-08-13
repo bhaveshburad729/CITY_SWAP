@@ -73,6 +73,7 @@ class UserProfileUpdate(BaseModel):
     full_name: Optional[str] = None
     ward: Optional[str] = None
     phone: Optional[str] = None
+    eco_coins: Optional[int] = None
 
 class UserResponse(BaseModel):
     id: int

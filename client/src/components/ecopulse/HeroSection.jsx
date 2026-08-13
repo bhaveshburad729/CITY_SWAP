@@ -19,11 +19,11 @@ const HeroSection = () => {
         <div className="lg:col-span-6 space-y-6 pt-2">
           
           {/* Top Pill Badge */}
-          <div className="inline-flex items-center gap-2 bg-[#e2f4e8]/90 backdrop-blur-xs px-4 py-1.5 rounded-full text-xs font-bold text-[#005C2B] tracking-wide border border-[#c4ebcf]">
+          <div className="inline-flex items-center gap-2 bg-secondary-container/90 backdrop-blur-xs px-4 py-1.5 rounded-full text-xs font-bold text-primary tracking-wide border border-secondary-container">
             <span>AI-Powered</span>
-            <span className="text-[#005C2B] font-bold">•</span>
+            <span className="text-primary font-bold">•</span>
             <span>Smart</span>
-            <span className="text-[#005C2B] font-bold">•</span>
+            <span className="text-primary font-bold">•</span>
             <span>Sustainable</span>
           </div>
 
@@ -43,7 +43,7 @@ const HeroSection = () => {
           <div className="flex flex-wrap items-center gap-3 pt-2">
             
             {/* WhatsApp CTA */}
-            <button className="flex items-center gap-2.5 bg-[#005C2B] hover:bg-[#004821] text-white px-5 py-3 rounded-xl font-bold text-sm shadow-md transition-all cursor-pointer">
+            <button className="flex items-center gap-2.5 bg-primary hover:bg-primary-container text-white px-5 py-3 rounded-xl font-bold text-sm shadow-md transition-all cursor-pointer">
               <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                 <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.84 9.84 0 0 0 12.04 2z"/>
               </svg>
@@ -52,7 +52,7 @@ const HeroSection = () => {
 
             {/* Request Demo */}
             <button className="flex items-center gap-2 bg-white/95 backdrop-blur-xs hover:bg-gray-50 text-gray-800 border border-gray-300 px-5 py-3 rounded-xl font-semibold text-sm shadow-2xs transition-all cursor-pointer">
-              <div className="w-4 h-4 rounded-full bg-[#005C2B] flex items-center justify-center text-white text-[9px] font-bold">
+              <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center text-white text-[9px] font-bold">
                 ▶
               </div>
               Request Demo
@@ -60,7 +60,7 @@ const HeroSection = () => {
 
             {/* Watch Video */}
             <button className="flex items-center gap-2 bg-white/95 backdrop-blur-xs hover:bg-gray-50 text-gray-800 border border-gray-300 px-5 py-3 rounded-xl font-semibold text-sm shadow-2xs transition-all cursor-pointer">
-              <div className="w-4 h-4 rounded-full bg-[#005C2B] flex items-center justify-center text-white text-[9px] font-bold">
+              <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center text-white text-[9px] font-bold">
                 ▶
               </div>
               Watch Video
@@ -70,28 +70,28 @@ const HeroSection = () => {
           {/* 4 Feature Points Bar */}
           <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-bold text-gray-800">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-lg bg-[#e2f4e8] flex items-center justify-center text-[#005C2B]">
+              <div className="w-6 h-6 rounded-lg bg-secondary-container flex items-center justify-center text-primary">
                 📱
               </div>
               <span>No App Required</span>
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-lg bg-[#e2f4e8] flex items-center justify-center text-[#005C2B]">
+              <div className="w-6 h-6 rounded-lg bg-secondary-container flex items-center justify-center text-primary">
                 🛡️
               </div>
               <span>AI Verified</span>
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-lg bg-[#e2f4e8] flex items-center justify-center text-[#005C2B]">
+              <div className="w-6 h-6 rounded-lg bg-secondary-container flex items-center justify-center text-primary">
                 📍
               </div>
               <span>Real-time Tracking</span>
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-lg bg-[#e2f4e8] flex items-center justify-center text-[#005C2B]">
+              <div className="w-6 h-6 rounded-lg bg-secondary-container flex items-center justify-center text-primary">
                 🌐
               </div>
               <span>Multi-language Support</span>
@@ -106,7 +106,7 @@ const HeroSection = () => {
           {/* Floating Circle Badge */}
           <div className="absolute -top-3 right-0 z-30 bg-white/95 backdrop-blur-xs border border-gray-200 shadow-md rounded-full w-32 h-32 p-3 flex flex-col items-center justify-center text-center">
             <span className="text-[10px] text-gray-500 font-medium">Together for</span>
-            <span className="text-[12px] font-extrabold text-[#005C2B] leading-tight">
+            <span className="text-[12px] font-extrabold text-primary leading-tight">
               a Cleaner <br /> Tomorrow
             </span>
           </div>

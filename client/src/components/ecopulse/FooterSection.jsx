@@ -113,25 +113,25 @@ const FooterSection = () => {
                 <div className="grid grid-cols-4 gap-1 w-full h-full p-1 bg-white rounded-md">
                   <div className="bg-gray-900 rounded-2xs"></div>
                   <div className="bg-gray-900 rounded-2xs"></div>
-                  <div className="bg-[#005C2B] rounded-2xs"></div>
+                  <div className="bg-primary rounded-2xs"></div>
                   <div className="bg-gray-900 rounded-2xs"></div>
                   <div className="bg-gray-900 rounded-2xs"></div>
                   <div className="bg-white"></div>
                   <div className="bg-gray-900 rounded-2xs"></div>
                   <div className="bg-gray-900 rounded-2xs"></div>
-                  <div className="bg-[#005C2B] rounded-2xs"></div>
+                  <div className="bg-primary rounded-2xs"></div>
                   <div className="bg-gray-900 rounded-2xs"></div>
                   <div className="bg-white"></div>
                   <div className="bg-gray-900 rounded-2xs"></div>
                   <div className="bg-gray-900 rounded-2xs"></div>
-                  <div className="bg-[#005C2B] rounded-2xs"></div>
+                  <div className="bg-primary rounded-2xs"></div>
                   <div className="bg-gray-900 rounded-2xs"></div>
                   <div className="bg-gray-900 rounded-2xs"></div>
                 </div>
               </div>
 
               {/* Recycle Icon Badge */}
-              <div className="absolute -top-2 -right-2 bg-[#005C2B] text-white p-2 rounded-xl shadow-md text-base">
+              <div className="absolute -top-2 -right-2 bg-primary text-white p-2 rounded-xl shadow-md text-base">
                 ♻️
               </div>
             </div>

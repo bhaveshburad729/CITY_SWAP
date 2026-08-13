@@ -173,6 +173,20 @@ SECRET_KEY="your_jwt_secret_key_change_in_prod"
 
 ---
 
+## 🧪 Testing
+
+### Running Backend Unit Tests (Pytest)
+To run the automated FastAPI backend API tests:
+```powershell
+# Make sure virtual environment is active
+.\myenv\Scripts\activate
+
+# Run pytest module
+python -m pytest
+```
+
+---
+
 ## 🛡️ Security Best Practices Implemented
 
 1. **CORS Configuration**: Restricts cross-origin requests to trusted frontend domains (`http://localhost:5173`).

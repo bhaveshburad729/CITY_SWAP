@@ -63,7 +63,7 @@ const ImpactSection = () => {
           {metrics.map((item, idx) => (
             <div
               key={idx}
-              className="bg-white/90 backdrop-blur-xs border border-[#d2f3dc] rounded-3xl p-6 text-center flex flex-col items-center justify-center shadow-xs hover:shadow-lg hover:border-[#005C2B]/50 transition-all duration-300 transform hover:-translate-y-1 group"
+              className="bg-white/90 backdrop-blur-xs border border-secondary-container rounded-3xl p-6 text-center flex flex-col items-center justify-center shadow-xs hover:shadow-lg hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-1 group"
             >
               {/* Larger Icon Container */}
               <div className={`w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-gradient-to-br ${item.gradient} border flex items-center justify-center text-3xl sm:text-4xl mb-4 shadow-2xs group-hover:scale-110 transition-transform duration-300 select-none`}>

@@ -191,6 +191,8 @@ class AuthService:
             user.ward = payload.ward
         if payload.phone is not None:
             user.phone = payload.phone
+        if payload.eco_coins is not None:
+            user.eco_coins = payload.eco_coins
             
         db.commit()
         db.refresh(user)

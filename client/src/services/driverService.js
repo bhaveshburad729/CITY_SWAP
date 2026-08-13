@@ -5,13 +5,8 @@ export const fetchDriverTasks = async () => {
     const response = await api.get('/driver/tasks');
     return response.data;
   } catch (error) {
-    console.warn('Error fetching driver tasks from API:', error.message);
-    return [
-      { id: 1, name: '1. Green Park, Plot No. 45', status: 'Completed', statusColor: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
-      { id: 2, name: '2. Sai Nagar, Main Road', status: 'In Progress', statusColor: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
-      { id: 3, name: '3. Shanti Apartment', status: 'Pending', statusColor: 'bg-amber-100 text-amber-800 border-amber-200' },
-      { id: 4, name: '4. Market Area, Gate No. 2', status: 'Pending', statusColor: 'bg-amber-100 text-amber-800 border-amber-200' }
-    ];
+    console.error('Error fetching driver tasks:', error);
+    throw error;
   }
 };
 
@@ -24,6 +19,63 @@ export const updateDriverTaskStatus = async (taskId, status, proofImageUrl = nul
     return response.data;
   } catch (error) {
     console.error('Error updating driver task status:', error);
-    return { id: taskId, status };
+    throw error;
   }
 };
+
+export const fetchPerformanceData = async () => {
+  try {
+    const response = await api.get('/driver/performance');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching driver performance data:', error);
+    throw error;
+  }
+};
+
+export const fetchFuelLogs = async () => {
+  try {
+    const response = await api.get('/driver/fuel-logs');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching driver fuel logs:', error);
+    throw error;
+  }
+};
+
+export const addFuelEntry = async (odometer, liters, cost) => {
+  try {
+    const response = await api.post('/driver/fuel-logs', {
+      odometer: parseInt(odometer),
+      liters: parseFloat(liters),
+      cost: parseFloat(cost)
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error saving fuel entry:', error);
+    throw error;
+  }
+};
+
+export const fetchMessages = async () => {
+  try {
+    const response = await api.get('/driver/messages');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching messages overview:', error);
+    throw error;
+  }
+};
+
+export const sendMessage = async (body) => {
+  try {
+    const response = await api.post('/driver/messages', {
+      body
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error sending message:', error);
+    throw error;
+  }
+};
+
