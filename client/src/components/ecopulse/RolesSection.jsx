@@ -162,8 +162,8 @@ const RolesSection = () => {
                   🛒
                 </div>
                 <div>
-                  <h3 className="text-xl font-black text-gray-900 leading-tight">Collector</h3>
-                  <p className="text-xs font-semibold text-gray-500">Collect • Verify • Report</p>
+                  <h3 className="text-xl font-black text-gray-900 leading-tight">Admin</h3>
+                  <p className="text-xs font-semibold text-gray-500">Monitor • Verify • Manage</p>
                 </div>
               </div>
 
@@ -171,19 +171,19 @@ const RolesSection = () => {
               <ul className="space-y-3 my-6 text-xs font-bold text-gray-700">
                 <li className="flex items-center gap-2.5">
                   <span className="w-4 h-4 rounded-full bg-primary text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-                  <span>Bin checklist & verification</span>
+                  <span>Municipal telemetry & GIS tracking</span>
                 </li>
                 <li className="flex items-center gap-2.5">
                   <span className="w-4 h-4 rounded-full bg-primary text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-                  <span>Before/after photo upload</span>
+                  <span>Driver & asset management</span>
                 </li>
                 <li className="flex items-center gap-2.5">
                   <span className="w-4 h-4 rounded-full bg-primary text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-                  <span>Report issues instantly</span>
+                  <span>Issue resolution & reports</span>
                 </li>
                 <li className="flex items-center gap-2.5">
                   <span className="w-4 h-4 rounded-full bg-primary text-white text-[10px] flex items-center justify-center font-bold">✓</span>
-                  <span>Track daily performance</span>
+                  <span>Track city-wide performance</span>
                 </li>
               </ul>
             </div>
@@ -193,7 +193,7 @@ const RolesSection = () => {
               <div className="w-full mb-4 overflow-hidden rounded-2xl">
                 <img
                   src="/admin.png"
-                  alt="Collector App & 3D Character Illustration"
+                  alt="Admin App & 3D Character Illustration"
                   className="w-full h-auto object-contain hover:scale-[1.02] transition-transform duration-300 drop-shadow-xs"
                 />
               </div>
@@ -203,7 +203,7 @@ const RolesSection = () => {
                 onClick={() => handlePortalClick('collector', '/admin')} 
                 className="inline-flex items-center gap-1.5 text-xs font-extrabold text-primary hover:underline cursor-pointer"
               >
-                Explore Collector Portal →
+                Explore Admin Portal →
               </button>
             </div>
           </div>

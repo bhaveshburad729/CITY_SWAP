@@ -49,18 +49,18 @@ const LoginForm = ({ onSwitchToSignup, onOpenForgotPassword, onRoleChange, onSuc
     }
   };
 
-  const getPortalTitle = () => {
-    if (selectedRole === 'collector') return 'Collector Portal';
+  const getTitle = () => {
+    if (selectedRole === 'citizen') return 'Citizen Portal';
     if (selectedRole === 'driver') return 'Driver Portal';
-    if (selectedRole === 'admin') return 'Admin Portal';
-    return 'Citizen Portal';
+    if (selectedRole === 'collector') return 'Admin Portal';
+    return 'Admin Portal';
   };
 
-  const getPortalSubtitle = () => {
-    if (selectedRole === 'collector') return 'Manage collections, submit reports and photos.';
-    if (selectedRole === 'driver') return 'Navigate smart routes & update collection status.';
-    if (selectedRole === 'admin') return 'Municipal overview, analytics & user management.';
-    return 'Report waste, schedule pickups & earn EcoCoins.';
+  const getSubtitle = () => {
+    if (selectedRole === 'citizen') return 'Report waste, earn eco-coins, track status live.';
+    if (selectedRole === 'driver') return 'View assigned routes, update status, track fuel & metrics.';
+    if (selectedRole === 'collector') return 'Manage municipal operations, system data and personnel.';
+    return 'Manage municipal operations, system data and personnel.';
   };
 
   return (
@@ -137,7 +137,7 @@ const LoginForm = ({ onSwitchToSignup, onOpenForgotPassword, onRoleChange, onSuc
           }`}
         >
           <ShoppingCart className="w-3 h-3" />
-          <span>Collector</span>
+          <span>Admin</span>
         </button>
 
         <button

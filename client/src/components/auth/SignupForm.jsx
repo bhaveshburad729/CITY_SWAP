@@ -153,7 +153,7 @@ const SignupForm = ({ onSwitchToLogin, onRoleChange, onSuccess }) => {
           }`}
         >
           <ShoppingCart className="w-3.5 h-3.5" />
-          <span>Collector</span>
+          <span>Admin</span>
         </button>
       </div>
 
@@ -391,7 +391,7 @@ const SignupForm = ({ onSwitchToLogin, onRoleChange, onSuccess }) => {
             </div>
           ) : (
             <div className="flex items-center gap-1.5">
-              <span>Create {selectedRole === 'driver' ? 'Driver' : selectedRole === 'collector' ? 'Collector' : 'Citizen'} Account</span>
+              <span>Create {selectedRole === 'driver' ? 'Driver' : selectedRole === 'collector' ? 'Admin' : 'Citizen'} Account</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </div>
           )}

@@ -97,10 +97,10 @@ const CollectorPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
         {/* Portal Title & Subtitle */}
         <div className="text-center mb-2.5">
           <h3 className="text-xl sm:text-2xl font-extrabold text-[#ea580c] tracking-tight">
-            Collector Portal
+            Admin Portal
           </h3>
           <p className="text-[11px] sm:text-xs font-semibold text-slate-600 mt-0.5">
-            Manage collections, submit reports and photos.
+            Manage municipal operations, system data and personnel.
           </p>
         </div>
 
@@ -108,7 +108,7 @@ const CollectorPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
         <div className="relative w-full h-32 sm:h-36 rounded-2xl overflow-hidden border border-orange-100 mb-3 sm:mb-3.5 bg-gradient-to-b from-[#fff7ed] to-orange-50 flex items-center justify-center shadow-2xs p-2">
           <img
             src="/ChatGPT Image Aug 5, 2026, 01_05_55 PM.png"
-            alt="Collector Portal Illustration"
+            alt="Admin Portal Illustration"
             className="w-full h-full object-contain object-center drop-shadow-xs"
           />
         </div>
@@ -308,7 +308,7 @@ const CollectorPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
         <div className="mt-3 sm:mt-3.5">
           <button
             type="button"
-            onClick={() => alert('Collector Helpline: 1800-CITY-SWAP-COLLECTOR')}
+            onClick={() => alert('Admin Helpline: 1800-CITY-SWAP-ADMIN')}
             className="w-full p-2.5 sm:p-3 rounded-2xl bg-[#fff7ed] border border-orange-200/80 hover:bg-orange-100/60 flex items-center justify-between transition-all group cursor-pointer"
           >
             <div className="flex items-center gap-2.5 sm:gap-3">

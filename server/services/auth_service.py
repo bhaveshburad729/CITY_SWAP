@@ -100,7 +100,14 @@ class AuthService:
         db.commit()
         db.refresh(new_user)
 
-        token = create_access_token({"sub": new_user.email, "role": new_user.role, "id": new_user.id})
+        import time
+        session_id = f"sess_{new_user.id}_{int(time.time())}"
+        token = create_access_token({
+            "sub": new_user.email,
+            "role": new_user.role,
+            "id": new_user.id,
+            "sid": session_id
+        })
         return AuthResponse(
             access_token=token,
             user=UserResponse(
@@ -161,14 +168,43 @@ class AuthService:
         # Successful login: reset failed attempts counter
         user.failed_attempts = 0
         
-        # If user explicitly specified role portal during login, verify & update if permissible
-        if payload.role and payload.role != user.role:
-            user.role = payload.role
+        # Strict Role-Based Portal Access Control
+        # If user registered as citizen, they CANNOT log in via driver or admin portal.
+        # Drivers can log in to driver portal (or admin if authorized). Admins can log in to admin.
+        if payload.role:
+            target_role = payload.role.lower()
+            user_role = user.role.lower()
             
+            # Helper for role hierarchy / permission checking
+            allowed = False
+            if target_role == user_role:
+                allowed = True
+            elif target_role in ["admin", "collector"] and user_role in ["admin", "collector"]:
+                allowed = True
+            elif target_role == "driver" and user_role == "admin":
+                allowed = True
+
+            if not allowed:
+                portal_names = {"citizen": "Citizen", "driver": "Driver", "admin": "Admin", "collector": "Admin"}
+                target_portal_name = portal_names.get(target_role, target_role.capitalize())
+                user_portal_name = portal_names.get(user_role, user_role.capitalize())
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail=f"Access Denied: This account is registered as a '{user_portal_name}'. You cannot log in via the '{target_portal_name} Portal'."
+                )
+
         db.commit()
         db.refresh(user)
 
-        token = create_access_token({"sub": user.email, "role": user.role, "id": user.id})
+        # Generate secure JWT with sub, role, user id, and session timestamp
+        import time
+        session_id = f"sess_{user.id}_{int(time.time())}"
+        token = create_access_token({
+            "sub": user.email,
+            "role": user.role,
+            "id": user.id,
+            "sid": session_id
+        })
         return AuthResponse(
             access_token=token,
             user=UserResponse(

@@ -60,7 +60,7 @@ const ThreePortalLogins = ({ onSuccess }) => {
             <span className="truncate">Driver</span>
           </button>
 
-          {/* Tab 3: Collector Portal */}
+          {/* Tab 3: Admin Portal */}
           <button
             type="button"
             onClick={() => setActivePortal('collector')}
@@ -71,7 +71,7 @@ const ThreePortalLogins = ({ onSuccess }) => {
             }`}
           >
             <ShoppingBag className="w-4 h-4 shrink-0" />
-            <span className="truncate">Collector</span>
+            <span className="truncate">Admin</span>
           </button>
 
         </div>
