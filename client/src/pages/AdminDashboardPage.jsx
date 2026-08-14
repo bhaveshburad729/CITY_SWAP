@@ -316,6 +316,135 @@ const AdminDashboardPage = () => {
       </AnimatePresence>
 
       {/* ------------------------------------------------------------- */}
+      {/* MOBILE HEADER & DRAWER OVERLAY                                */}
+      {/* ------------------------------------------------------------- */}
+      <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#003816] text-white flex items-center justify-between px-4 z-[100] shadow-md">
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white cursor-pointer"
+            aria-label="Toggle menu"
+          >
+            <span className="material-symbols-outlined text-xl">{mobileMenuOpen ? 'close' : 'menu'}</span>
+          </button>
+          <div className="flex items-center gap-2">
+            <span className="material-symbols-outlined text-[#b8f0be] text-xl font-bold">eco</span>
+            <span className="font-extrabold text-sm tracking-tight">EcoPulse Admin</span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={loadData}
+            className="p-2 rounded-lg bg-white/10 text-white hover:bg-white/20 cursor-pointer"
+            title="Sync Data"
+          >
+            <RefreshCw className="w-4 h-4" />
+          </button>
+          <div
+            onClick={() => setShowProfileModal(true)}
+            className="w-8 h-8 rounded-full bg-[#b8f0be] text-[#003816] flex items-center justify-center font-black text-xs cursor-pointer"
+          >
+            {user?.name ? user.name.charAt(0).toUpperCase() : 'B'}
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Drawer Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-xs z-[105]"
+            />
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 250 }}
+              className="md:hidden fixed left-0 top-0 bottom-0 w-[280px] bg-[#003816] text-white z-[110] flex flex-col py-6 shadow-2xl"
+            >
+              <div className="px-6 mb-6 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-lg bg-white flex items-center justify-center text-[#00421d] shadow-sm font-bold">
+                    <span className="material-symbols-outlined text-xl">eco</span>
+                  </div>
+                  <div>
+                    <h1 className="font-bold text-sm leading-tight text-white">City Swap EcoPulse</h1>
+                    <p className="text-[10px] text-[#b8f0be]/80 font-medium">Admin Portal</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-1.5 rounded-lg bg-white/10 text-white"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto px-4 space-y-1">
+                {sidebarNavItems.map((item) => {
+                  const isActive = activeTab === item.name;
+                  const isDriverTab = item.name === 'Drivers' && (activeTab === 'Drivers' || activeTab === 'Collectors');
+                  const shouldBeHighlighted = isActive || isDriverTab;
+
+                  return (
+                    <button
+                      key={item.name}
+                      onClick={() => {
+                        if (item.action) {
+                          item.action();
+                        } else {
+                          setActiveTab(item.name);
+                        }
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-xs font-semibold cursor-pointer ${
+                        shouldBeHighlighted
+                          ? 'bg-white/10 border-l-4 border-[#b8f0be] text-white font-bold'
+                          : 'text-[#84d395]/85 hover:text-white hover:bg-white/5'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="material-symbols-outlined text-[18px]">{item.icon}</span>
+                        <span>{item.name}</span>
+                      </div>
+                      {item.badge && (
+                        <span className="bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold">
+                          {item.badge}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="px-4 mt-auto pt-4 border-t border-white/10 space-y-2">
+                <button
+                  onClick={() => { setShowProfileModal(true); setMobileMenuOpen(false); }}
+                  className="w-full flex items-center gap-3 p-2.5 rounded-lg bg-white/5 text-xs font-bold text-white hover:bg-white/10"
+                >
+                  <User className="w-4 h-4 text-[#b8f0be]" />
+                  <span>{user?.name || user?.full_name || 'Bhavesh Burad'}</span>
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg bg-red-600/20 text-red-300 text-xs font-bold"
+                >
+                  <span className="material-symbols-outlined text-[16px]">logout</span>
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* ------------------------------------------------------------- */}
       {/* LEFT SIDEBAR NAVIGATION: HIGH-CONTRAST SECONDARY GREEN        */}
       {/* ------------------------------------------------------------- */}
       <nav className="hidden md:flex fixed left-0 top-0 h-full w-[280px] bg-[#003816] shadow-[4px_0_24px_rgba(0,0,0,0.15)] flex-col py-6 z-50">
@@ -404,10 +533,10 @@ const AdminDashboardPage = () => {
       {/* ------------------------------------------------------------- */}
       {/* RIGHT MAIN CONTENT AREA: FIXED TOP-BAR & SCROLLABLE CONTENT   */}
       {/* ------------------------------------------------------------- */}
-      <div className="flex-grow ml-[280px] min-h-screen flex flex-col relative">
+      <div className="flex-grow ml-0 md:ml-[280px] min-h-screen flex flex-col relative pt-16 md:pt-0">
         
         {/* Top AppBar */}
-        <header className="fixed top-0 right-0 w-[calc(100%-280px)] h-16 bg-white border-b border-border-subtle flex justify-between items-center px-8 z-40 shadow-xs">
+        <header className="hidden md:flex fixed top-0 right-0 w-[calc(100%-280px)] h-16 bg-white border-b border-border-subtle justify-between items-center px-8 z-40 shadow-xs">
           <div className="flex items-center">
             <h2 className="font-bold text-[16px] text-[#005c2b] tracking-tight">{getPageHeaderTitle()}</h2>
           </div>

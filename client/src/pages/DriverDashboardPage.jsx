@@ -181,6 +181,8 @@ const DriverDashboardPage = () => {
     { name: 'Settings', icon: Settings, action: () => setShowProfileModal(true) },
   ];
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#f9f9ff] font-sans text-[#141b2c] flex select-none">
       
@@ -196,6 +198,114 @@ const DriverDashboardPage = () => {
             <Navigation className="w-5 h-5 fill-current animate-bounce" />
             <span>Turn-by-Turn GPS Navigation Started on Interactive OpenStreetMap!</span>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Top Header */}
+      <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-primary text-white flex items-center justify-between px-4 z-[100] shadow-md">
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white cursor-pointer"
+            aria-label="Toggle menu"
+          >
+            <span className="material-symbols-outlined text-xl">{mobileMenuOpen ? 'close' : 'menu'}</span>
+          </button>
+          <span className="font-extrabold text-sm tracking-tight">Driver Portal</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={loadDriverData}
+            className="p-2 rounded-lg bg-white/10 text-white cursor-pointer"
+            title="Refresh Data"
+          >
+            <RefreshCw className="w-4 h-4" />
+          </button>
+          <div
+            onClick={() => setShowProfileModal(true)}
+            className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-black text-xs cursor-pointer"
+          >
+            {driver?.name ? driver.name.charAt(0).toUpperCase() : 'R'}
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Drawer Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-xs z-[105]"
+            />
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 250 }}
+              className="md:hidden fixed left-0 top-0 bottom-0 w-[280px] bg-primary text-white z-[110] flex flex-col py-6 shadow-2xl"
+            >
+              <div className="px-6 mb-6 flex items-center justify-between">
+                <div>
+                  <h1 className="text-base font-bold text-white leading-none">City Swap</h1>
+                  <p className="text-[10px] font-medium text-white/70 mt-1">Driver Portal</p>
+                </div>
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-1.5 rounded-lg bg-white/10 text-white"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="flex-1 flex flex-col gap-1 overflow-y-auto">
+                {navItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeTab === item.name;
+                  return (
+                    <button
+                      key={item.name}
+                      onClick={() => {
+                        if (item.action) {
+                          item.action();
+                        } else {
+                          setActiveTab(item.name);
+                        }
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`mx-4 py-3 px-4 flex items-center justify-between rounded-lg cursor-pointer ${
+                        isActive
+                          ? 'bg-white/15 text-white font-bold'
+                          : 'text-white/70 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <Icon className="w-4 h-4" />
+                        <span className="text-xs font-semibold">{item.name}</span>
+                      </div>
+                      {item.badge && (
+                        <span className="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-black">
+                          {item.badge}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="mt-auto px-4 pt-4 border-t border-white/10 space-y-2">
+                <button
+                  onClick={handleLogout}
+                  className="w-full py-2 bg-[#ba1a1a] hover:bg-red-700 text-white font-bold rounded-lg text-xs"
+                >
+                  Sign Out
+                </button>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
@@ -281,7 +391,7 @@ const DriverDashboardPage = () => {
       {/* ----------------------------------------------------------------- */}
       {/* RIGHT MAIN CONTENT AREA MATCHING STITCH                           */}
       {/* ----------------------------------------------------------------- */}
-      <main className="flex-1 md:ml-[280px] w-full max-w-full flex flex-col min-h-screen">
+      <main className="flex-1 ml-0 md:ml-[280px] w-full max-w-full flex flex-col min-h-screen pt-16 md:pt-0">
         
         {/* TopAppBar */}
         <header className="h-16 w-full flex items-center sticky top-0 z-10 bg-white border-b border-[#EAECF0]">

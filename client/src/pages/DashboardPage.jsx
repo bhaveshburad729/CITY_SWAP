@@ -131,9 +131,94 @@ const DashboardPage = () => {
     return 'bg-slate-100 text-slate-800 border-slate-300 font-extrabold whitespace-nowrap inline-flex items-center px-2.5 py-1 rounded-lg text-[11px] border shadow-2xs';
   };
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#f6f9f7] font-sans selection:bg-[#02471f] selection:text-white flex text-slate-800">
       
+      {/* Mobile Drawer Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-xs z-[105]"
+            />
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 250 }}
+              className="md:hidden fixed left-0 top-0 bottom-0 w-[280px] bg-primary text-white z-[110] flex flex-col py-6 shadow-2xl"
+            >
+              <div className="px-6 mb-6 flex items-center justify-between">
+                <div>
+                  <h1 className="text-lg font-headline-sm font-black text-white">EcoPulse AI</h1>
+                  <p className="text-white/70 text-[10px] uppercase tracking-wider mt-0.5">Citizen Portal</p>
+                </div>
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-1.5 rounded-lg bg-white/10 text-white"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="px-6 mb-6">
+                <button
+                  onClick={() => { setShowReportModal(true); setMobileMenuOpen(false); }}
+                  className="w-full bg-[#a4f5b4] hover:bg-[#89d899] text-[#00210b] text-xs font-bold py-2.5 rounded-lg flex justify-center items-center gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Report Issue</span>
+                </button>
+              </div>
+
+              <nav className="flex-1 space-y-1 overflow-y-auto">
+                {navItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeTab === item.name;
+                  return (
+                    <button
+                      key={item.name}
+                      onClick={() => {
+                        if (item.action) {
+                          item.action();
+                        } else {
+                          setActiveTab(item.name);
+                        }
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`w-full flex items-center gap-3 px-6 py-3 transition-all text-xs font-bold ${
+                        isActive
+                          ? 'bg-white/10 text-white border-l-4 border-[#a4f5b4]'
+                          : 'text-white/70 hover:bg-white/5 hover:text-white'
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span>{item.name}</span>
+                    </button>
+                  );
+                })}
+              </nav>
+
+              <div className="px-4 mt-auto pt-4 border-t border-white/10">
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-6 py-2.5 rounded-md text-white/70 font-medium hover:bg-white/5"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Logout</span>
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* ----------------------------------------------------------------- */}
       {/* LEFT SIDEBAR NAVIGATION MATCHING CITIZEN.PNG                     */}
       {/* ----------------------------------------------------------------- */}
@@ -217,13 +302,22 @@ const DashboardPage = () => {
         
         {/* Top Header Navbar */}
         <header className="h-16 bg-white border-b border-slate-200/90 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-20">
-          <div>
-            <h1 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
-              Citizen Dashboard
-            </h1>
-            <p className="text-[11px] font-semibold text-slate-500 hidden sm:block">
-              Clean City • Ward 12 Municipal Portal
-            </p>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              className="md:hidden p-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer"
+              aria-label="Open navigation menu"
+            >
+              <span className="material-symbols-outlined text-xl">menu</span>
+            </button>
+            <div>
+              <h1 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
+                Citizen Dashboard
+              </h1>
+              <p className="text-[11px] font-semibold text-slate-500 hidden sm:block">
+                Clean City • Ward 12 Municipal Portal
+              </p>
+            </div>
           </div>
 
           <div className="flex items-center gap-3">
