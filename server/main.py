@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from server.database.db import engine, Base, SessionLocal
+import server.models  # Import all SQLAlchemy models to register them with Base.metadata
 from server.routes import health, item, auth, complaint, driver, admin, uploads
 from server.services.auth_service import AuthService
 from server.utils.config import config

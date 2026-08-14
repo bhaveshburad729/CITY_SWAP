@@ -1148,6 +1148,7 @@ const AdminDashboardPage = () => {
                     <span className="text-[10px] text-[#005c2b] font-bold bg-[#b6edbb]/40 px-2 py-0.5 rounded-full">Operating normally</span>
                   </div>
                 </div>
+              </div>
 
               {/* Map & Urgent Layout */}
 

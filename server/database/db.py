@@ -4,18 +4,19 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Load environment variables from server/.env and .env
+# Load environment variables explicitly from server/.env and root .env
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+server_env = os.path.join(base_dir, ".env")
+root_env = os.path.join(os.path.dirname(base_dir), ".env")
+
+if os.path.exists(server_env):
+    load_dotenv(server_env)
+if os.path.exists(root_env):
+    load_dotenv(root_env)
 load_dotenv()
 
-# Read DATABASE_URL from .env file
+# Read DATABASE_URL from environment
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
-
-if not SQLALCHEMY_DATABASE_URL:
-    # Check parent directory .env if available
-    parent_env = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), ".env")
-    if os.path.exists(parent_env):
-        load_dotenv(parent_env)
-        SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not SQLALCHEMY_DATABASE_URL:
     SQLALCHEMY_DATABASE_URL = "sqlite:///./ecopulse.db"
