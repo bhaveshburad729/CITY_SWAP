@@ -31,7 +31,9 @@ import {
   Sparkles,
   Zap,
   Activity,
-  AlertCircle
+  AlertCircle,
+  RefreshCw,
+  X
 } from 'lucide-react';
 
 const DriverDashboardPage = () => {

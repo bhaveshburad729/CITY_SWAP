@@ -280,7 +280,7 @@ class AdminService:
             ))
 
         # Monthly trends from real data
-        now = datetime.datetime.utcnow()
+        now = datetime.datetime.now(datetime.timezone.utc)
         months = []
         for i in range(5, -1, -1):
             target = now - datetime.timedelta(days=i * 30)

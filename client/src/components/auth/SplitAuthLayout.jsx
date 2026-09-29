@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Sparkles, Shield, Zap, Leaf, Recycle, Building2, Users, Star, Truck } from 'lucide-react';
+import { ArrowLeft, Sparkles, Shield, Zap, Leaf, Recycle, Building2, Users, Star } from 'lucide-react';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import ForgotPasswordModal from './ForgotPasswordModal';

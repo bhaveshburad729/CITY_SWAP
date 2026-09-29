@@ -19,6 +19,7 @@ def get_my_complaints(db: Session = Depends(get_db), current_user: Optional[User
     return ComplaintService.get_user_complaints(db, user_id)
 
 @router.post("", response_model=ComplaintResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/report", response_model=ComplaintResponse, status_code=status.HTTP_201_CREATED)
 def create_complaint(
     payload: ComplaintCreate,
     db: Session = Depends(get_db),
@@ -31,3 +32,23 @@ def create_complaint(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(e)
         )
+
+@router.get("/track/{tracking_id}", response_model=ComplaintResponse)
+def track_complaint(tracking_id: str, db: Session = Depends(get_db)):
+    result = ComplaintService.get_complaint_by_tracking_or_id(db, tracking_id)
+    if not result:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Complaint with reference '{tracking_id}' not found."
+        )
+    return result
+
+@router.get("/{complaint_id}", response_model=ComplaintResponse)
+def get_complaint(complaint_id: str, db: Session = Depends(get_db)):
+    result = ComplaintService.get_complaint_by_tracking_or_id(db, complaint_id)
+    if not result:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Complaint with ID '{complaint_id}' not found."
+        )
+    return result

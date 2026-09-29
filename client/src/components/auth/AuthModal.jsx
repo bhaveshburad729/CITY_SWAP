@@ -8,7 +8,6 @@ import ForgotPasswordModal from './ForgotPasswordModal';
 const AuthModal = ({ isOpen, onClose, initialMode = 'login', onSuccess }) => {
   const [activeTab, setActiveTab] = useState(initialMode);
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
-  const [activeRole, setActiveRole] = useState('citizen');
 
   useEffect(() => {
     setActiveTab(initialMode);

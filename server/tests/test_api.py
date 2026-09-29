@@ -103,4 +103,43 @@ def test_driver_endpoints_security():
     assert response.status_code == 201
     assert response.json()["body"] == "Test message from driver"
 
+def test_track_complaint():
+    # Fetch complaints first to get a valid tracking number
+    res_list = client.get("/api/complaints")
+    assert res_list.status_code == 200
+    complaints = res_list.json()
+    assert len(complaints) > 0
+    tracking_id = complaints[0]["id"]
+
+    res_track = client.get(f"/api/complaints/track/{tracking_id}")
+    assert res_track.status_code == 200
+    assert res_track.json()["id"] == tracking_id
+
+def test_forgot_password():
+    res = client.post(
+        "/api/auth/forgot-password",
+        json={"identifier": "priya@cityswap.io", "role": "citizen"}
+    )
+    assert res.status_code == 200
+    assert res.json()["success"] is True
+
+def test_otp_flow():
+    # Send OTP
+    res_send = client.post("/api/auth/send-otp", json={"phone": "9876543210"})
+    assert res_send.status_code == 200
+    assert res_send.json()["success"] is True
+
+    # Verify OTP
+    res_verify = client.post(
+        "/api/auth/verify-otp",
+        json={"phone": "9876543210", "otp": "1234", "role": "citizen"}
+    )
+    assert res_verify.status_code == 200
+    assert "access_token" in res_verify.json()
+
+def test_public_notifications():
+    res = client.get("/api/notifications")
+    assert res.status_code == 200
+    assert isinstance(res.json(), list)
+
 

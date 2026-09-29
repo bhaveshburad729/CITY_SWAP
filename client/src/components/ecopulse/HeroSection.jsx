@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Smartphone, ShieldCheck, MapPin, Globe, Sparkles } from 'lucide-react';
 
 const HeroSection = () => {
   return (
@@ -36,82 +38,93 @@ const HeroSection = () => {
 
           {/* Subtitle */}
           <p className="text-gray-700 text-sm md:text-[15px] leading-relaxed max-w-lg font-semibold">
-            EcoPulse AI connects Citizens, Drivers, Collectors and Municipalities on one intelligent platform to make waste management efficient, transparent and sustainable.
+            EcoPulse AI connects Citizens, Drivers, Collectors and Municipalities on one intelligent platform to make waste management efficient, transparent and sustainable. Piloting for 27 wards of Shirpur Municipal Council.
           </p>
 
           {/* Action CTAs */}
           <div className="flex flex-wrap items-center gap-3 pt-2">
             
             {/* WhatsApp CTA */}
-            <button className="flex items-center gap-2.5 bg-primary hover:bg-primary-container text-white px-5 py-3 rounded-xl font-bold text-sm shadow-md transition-all cursor-pointer">
+            <a 
+              href="https://wa.me/?text=Hi%20EcoPulse%20AI%20Smart%20Waste%20Assistant" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2.5 bg-primary hover:bg-primary-container text-white px-5 py-3 rounded-xl font-bold text-sm shadow-md transition-all cursor-pointer"
+            >
               <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                 <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.84 9.84 0 0 0 12.04 2z"/>
               </svg>
               Chat with AI on WhatsApp
-            </button>
+            </a>
 
             {/* Request Demo */}
-            <button className="flex items-center gap-2 bg-white/95 backdrop-blur-xs hover:bg-gray-50 text-gray-800 border border-gray-300 px-5 py-3 rounded-xl font-semibold text-sm shadow-2xs transition-all cursor-pointer">
-              <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center text-white text-[9px] font-bold">
-                ▶
+            <Link 
+              to="/demo" 
+              className="flex items-center gap-2 bg-white/95 backdrop-blur-xs hover:bg-emerald-50 text-gray-800 hover:text-primary border border-gray-300 px-5 py-3 rounded-xl font-semibold text-sm shadow-2xs transition-all cursor-pointer"
+            >
+              <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-white text-[10px] font-bold">
+                <Sparkles className="w-3 h-3" />
               </div>
-              Request Demo
-            </button>
+              Launch Demo Sandbox
+            </Link>
 
-            {/* Watch Video */}
-            <button className="flex items-center gap-2 bg-white/95 backdrop-blur-xs hover:bg-gray-50 text-gray-800 border border-gray-300 px-5 py-3 rounded-xl font-semibold text-sm shadow-2xs transition-all cursor-pointer">
-              <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center text-white text-[9px] font-bold">
-                ▶
+            {/* Live City GIS Map */}
+            <Link 
+              to="/map" 
+              className="flex items-center gap-2 bg-white/95 backdrop-blur-xs hover:bg-gray-50 text-gray-800 border border-gray-300 px-5 py-3 rounded-xl font-semibold text-sm shadow-2xs transition-all cursor-pointer"
+            >
+              <div className="w-5 h-5 rounded-full bg-emerald-600 flex items-center justify-center text-white text-[10px] font-bold">
+                <MapPin className="w-3 h-3" />
               </div>
-              Watch Video
-            </button>
+              Live City GIS
+            </Link>
           </div>
 
-          {/* 4 Feature Points Bar */}
+          {/* 4 Feature Points Bar with Lucide Icons */}
           <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-bold text-gray-800">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-lg bg-secondary-container flex items-center justify-center text-primary">
-                📱
+              <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
+                <Smartphone className="w-4 h-4" />
               </div>
               <span>No App Required</span>
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-lg bg-secondary-container flex items-center justify-center text-primary">
-                🛡️
+              <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
+                <ShieldCheck className="w-4 h-4" />
               </div>
               <span>AI Verified</span>
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-lg bg-secondary-container flex items-center justify-center text-primary">
-                📍
+              <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
+                <MapPin className="w-4 h-4" />
               </div>
               <span>Real-time Tracking</span>
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-lg bg-secondary-container flex items-center justify-center text-primary">
-                🌐
+              <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
+                <Globe className="w-4 h-4" />
               </div>
-              <span>Multi-language Support</span>
+              <span>Multi-lingual</span>
             </div>
           </div>
 
         </div>
 
-        {/* Right Column: Seamlessly Blended Hero Visual (No Box Lines or Image Edges) */}
+        {/* Right Column: Seamlessly Blended Hero Visual */}
         <div className="lg:col-span-6 relative flex justify-center items-center">
           
           {/* Floating Circle Badge */}
           <div className="absolute -top-3 right-0 z-30 bg-white/95 backdrop-blur-xs border border-gray-200 shadow-md rounded-full w-32 h-32 p-3 flex flex-col items-center justify-center text-center">
-            <span className="text-[10px] text-gray-500 font-medium">Together for</span>
+            <span className="text-[10px] text-gray-500 font-medium">Piloting for</span>
             <span className="text-[12px] font-extrabold text-primary leading-tight">
-              a Cleaner <br /> Tomorrow
+              Shirpur Municipal <br /> Council
             </span>
           </div>
 
-          {/* Seamless Illustration Image - No Outer Border/Card Box */}
+          {/* Seamless Illustration Image */}
           <div className="relative w-full max-w-[640px] flex items-center justify-center">
             <img
               src="/complete-right.png"

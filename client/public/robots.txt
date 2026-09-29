@@ -1,0 +1,17 @@
+﻿User-agent: *
+Allow: /
+Allow: /report
+Allow: /track
+Allow: /map
+Allow: /demo
+Allow: /faq
+Allow: /help
+Allow: /contact
+Allow: /privacy
+Allow: /terms
+
+Disallow: /admin
+Disallow: /driver
+Disallow: /citizen
+
+Sitemap: https://city-swap-frontend.onrender.com/sitemap.xml

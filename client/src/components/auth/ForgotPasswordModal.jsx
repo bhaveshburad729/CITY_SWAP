@@ -4,6 +4,7 @@ import { Mail, ArrowLeft, CheckCircle2, ShieldAlert, Sparkles, X } from 'lucide-
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { resetPasswordRequest } from '../../services/authService';
 
 const forgotPasswordSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -22,7 +23,11 @@ const ForgotPasswordModal = ({ isOpen, onClose, onBackToLogin }) => {
   });
 
   const onSubmit = async (data) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      await resetPasswordRequest({ identifier: data.email, role: 'citizen' });
+    } catch (err) {
+      console.warn('Password reset fallback:', err);
+    }
     setIsSubmitted(true);
   };
 

@@ -7,3 +7,4 @@ from server.models.performance import DriverPerformance
 from server.models.message import Message
 from server.models.bin import SmartBin
 from server.models.notification import Notification
+from server.models.whatsapp_session import WhatsAppCitizen

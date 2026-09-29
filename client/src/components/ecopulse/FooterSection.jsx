@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Mail, Phone, MapPin, Recycle } from 'lucide-react';
 
 const FooterSection = () => {
   return (
@@ -38,19 +40,19 @@ const FooterSection = () => {
 
               {/* 5 Social Media Buttons */}
               <div className="flex items-center justify-center sm:justify-start gap-2 pt-1">
-                <a href="#facebook" className="w-8 h-8 rounded-xl bg-[#1877F2] flex items-center justify-center text-xs font-bold text-white shadow-xs hover:opacity-90 transition-opacity">
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-xl bg-[#1877F2] flex items-center justify-center text-xs font-bold text-white shadow-xs hover:opacity-90 transition-opacity">
                   f
                 </a>
-                <a href="#twitter" className="w-8 h-8 rounded-xl bg-[#1DA1F2] flex items-center justify-center text-xs font-bold text-white shadow-xs hover:opacity-90 transition-opacity">
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-xl bg-[#1DA1F2] flex items-center justify-center text-xs font-bold text-white shadow-xs hover:opacity-90 transition-opacity">
                   t
                 </a>
-                <a href="#linkedin" className="w-8 h-8 rounded-xl bg-[#0A66C2] flex items-center justify-center text-xs font-bold text-white shadow-xs hover:opacity-90 transition-opacity">
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-xl bg-[#0A66C2] flex items-center justify-center text-xs font-bold text-white shadow-xs hover:opacity-90 transition-opacity">
                   in
                 </a>
-                <a href="#instagram" className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center text-xs font-bold text-white shadow-xs hover:opacity-90 transition-opacity">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center text-xs font-bold text-white shadow-xs hover:opacity-90 transition-opacity">
                   ig
                 </a>
-                <a href="#youtube" className="w-8 h-8 rounded-xl bg-[#FF0000] flex items-center justify-center text-xs font-bold text-white shadow-xs hover:opacity-90 transition-opacity">
+                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-xl bg-[#FF0000] flex items-center justify-center text-xs font-bold text-white shadow-xs hover:opacity-90 transition-opacity">
                   ▶
                 </a>
               </div>
@@ -60,50 +62,55 @@ const FooterSection = () => {
 
           {/* Quick Links */}
           <div className="md:col-span-2 space-y-3">
-            <h4 className="text-xs font-extrabold tracking-wider text-white uppercase">Quick Links</h4>
+            <h4 className="text-xs font-extrabold tracking-wider text-white uppercase">Platform Navigation</h4>
             <ul className="space-y-2 text-xs font-semibold text-emerald-100/80">
-              <li><a href="#home" className="hover:text-white transition-colors">Home</a></li>
-              <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-              <li><a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a></li>
-              <li><a href="#ai-agents" className="hover:text-white transition-colors">AI Agents</a></li>
-              <li><a href="#dashboards" className="hover:text-white transition-colors">Dashboards</a></li>
+              <li><Link to="/" className="hover:text-white transition-colors">Home Portal</Link></li>
+              <li><Link to="/report" className="hover:text-white transition-colors">Report Waste</Link></li>
+              <li><Link to="/track" className="hover:text-white transition-colors">Track Complaint</Link></li>
+              <li><Link to="/map" className="hover:text-white transition-colors">Live City Map</Link></li>
+              <li><Link to="/demo" className="hover:text-white transition-colors">Evaluation Sandbox</Link></li>
             </ul>
           </div>
 
           {/* Resources */}
           <div className="md:col-span-2 space-y-3">
-            <h4 className="text-xs font-extrabold tracking-wider text-white uppercase">Resources</h4>
+            <h4 className="text-xs font-extrabold tracking-wider text-white uppercase">Resources & Legal</h4>
             <ul className="space-y-2 text-xs font-semibold text-emerald-100/80">
-              <li><a href="#blog" className="hover:text-white transition-colors">Blog</a></li>
-              <li><a href="#faqs" className="hover:text-white transition-colors">FAQs</a></li>
-              <li><a href="#privacy" className="hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#terms" className="hover:text-white transition-colors">Terms of Service</a></li>
-              <li><a href="#support" className="hover:text-white transition-colors">Support</a></li>
+              <li><Link to="/faq" className="hover:text-white transition-colors">Help & FAQs</Link></li>
+              <li><Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy (DPDP)</Link></li>
+              <li><Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors">Council Contact</Link></li>
+              <li><Link to="/wallet" className="hover:text-white transition-colors">EcoCoin Rewards</Link></li>
             </ul>
           </div>
 
           {/* Contact Us */}
           <div className="md:col-span-2 space-y-3">
-            <h4 className="text-xs font-extrabold tracking-wider text-white uppercase">Contact Us</h4>
+            <h4 className="text-xs font-extrabold tracking-wider text-white uppercase">Contact Council</h4>
             <ul className="space-y-2.5 text-xs font-semibold text-emerald-100/80">
               <li className="flex items-center gap-2">
-                <span>✉️</span>
-                <span>hello@ecopulse.ai</span>
+                <Mail className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <a href="mailto:shirpur.sanitation@ecopulse.ai" className="hover:underline truncate">shirpur.sanitation@ecopulse.ai</a>
               </li>
               <li className="flex items-center gap-2">
-                <span>📞</span>
-                <span>+91 98765 43210</span>
+                <Phone className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <a href="tel:+912563255100" className="hover:underline">+91 (02563) 255100</a>
               </li>
-              <li className="flex items-center gap-2">
-                <span>📍</span>
-                <span>Pune, Maharashtra, India</span>
+              <li className="flex items-start gap-2">
+                <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Shirpur Municipal Council, Dhule, Maharashtra</span>
               </li>
             </ul>
           </div>
 
           {/* WhatsApp QR Box */}
           <div className="md:col-span-2 flex justify-start md:justify-end">
-            <div className="bg-white text-gray-900 rounded-2xl p-4 shadow-lg w-full max-w-[200px] relative">
+            <a 
+              href="https://wa.me/?text=Hi%20EcoPulse%20AI%20Civic%20Assistant"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white text-gray-900 rounded-2xl p-4 shadow-lg w-full max-w-[200px] relative block hover:scale-102 transition-transform"
+            >
               <div className="text-xs font-black text-gray-900 mb-2 leading-tight">
                 Scan to Chat <br /> on WhatsApp
               </div>
@@ -132,21 +139,26 @@ const FooterSection = () => {
 
               {/* Recycle Icon Badge */}
               <div className="absolute -top-2 -right-2 bg-primary text-white p-2 rounded-xl shadow-md text-base">
-                ♻️
+                <Recycle className="w-4 h-4 text-white" />
               </div>
-            </div>
+            </a>
           </div>
 
         </div>
 
         {/* Bottom Copyright Bar */}
         <div className="pt-6 text-center text-xs font-semibold text-emerald-200/70">
-          © 2026 EcoPulse AI. All rights reserved.
+          © 2026 EcoPulse AI • Shirpur Municipal Council Smart Sanitation Pilot. All rights reserved.
         </div>
       </div>
 
       {/* Floating WhatsApp AI Chatbot Widget */}
-      <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2 bg-[#25D366] text-white px-4 py-2.5 rounded-full shadow-2xl hover:bg-[#20bd5a] transition-all cursor-pointer">
+      <a 
+        href="https://wa.me/?text=Hi%20EcoPulse%20AI%20Civic%20Assistant"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-5 right-5 z-50 flex items-center gap-2 bg-[#25D366] text-white px-4 py-2.5 rounded-full shadow-2xl hover:bg-[#20bd5a] transition-all cursor-pointer"
+      >
         <div className="relative">
           <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
             <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.84 9.84 0 0 0 12.04 2z"/>
@@ -157,7 +169,7 @@ const FooterSection = () => {
           <div className="text-[11px] font-extrabold leading-tight">WhatsApp AI Chatbot</div>
           <div className="text-[9px] font-medium opacity-90">Click to start chatting</div>
         </div>
-      </div>
+      </a>
 
     </footer>
   );

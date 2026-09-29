@@ -11,9 +11,11 @@ class LoginRequest(BaseModel):
     @field_validator("email")
     @classmethod
     def sanitize_identifier(cls, v: str) -> str:
-        v = v.strip().lower()
+        v = v.strip()
         if not v:
             raise ValueError("Email or Employee ID cannot be empty.")
+        if "@" in v:
+            return v.lower()
         return v
 
     @field_validator("password")
@@ -89,3 +91,19 @@ class AuthResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     user: UserResponse
+
+class ForgotPasswordRequest(BaseModel):
+    identifier: str
+    role: Optional[str] = "citizen"
+
+class ForgotPasswordResponse(BaseModel):
+    success: bool
+    message: str
+
+class SendOtpRequest(BaseModel):
+    phone: str
+
+class VerifyOtpRequest(BaseModel):
+    phone: str
+    otp: str
+    role: Optional[str] = "citizen"

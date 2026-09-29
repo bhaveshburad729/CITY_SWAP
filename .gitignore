@@ -1,7 +1,43 @@
+# Python Virtual Environments
 myenv/
+.venv/
+venv/
+ENV/
+
+# Dependencies
 node_modules/
+
+# Environment files and credentials
 .env
+.env.*
+!.env.example
+server/.env
+server/.env.*
+!server/.env.example
+client/.env
+client/.env.*
+!client/.env.example
+*.pem
+*.key
+*.cert
+*.crt
+
+# Python cache & test artifacts
 __pycache__/
-*.log
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build and distribution
 dist/
 build/
+*.egg-info/
+
+# Logs & temp files
+*.log
+
+# Operating System files
+.DS_Store
+Thumbs.db

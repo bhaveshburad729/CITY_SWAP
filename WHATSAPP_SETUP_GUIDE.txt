@@ -1,0 +1,201 @@
+================================================================================
+ECOPULSE AI - SHIRPUR MUNICIPAL COUNCIL
+OFFICIAL META WHATSAPP CLOUD API SETUP GUIDE (STEP-BY-STEP)
+================================================================================
+
+This guide explains how to connect your EcoPulse AI backend to the real, original
+WhatsApp using Meta's official WhatsApp Business Cloud API.
+
+Meta provides a 100% FREE tier including 1,000 service conversations every month.
+No credit card or new SIM card is needed to get started; Meta provides a free test
+phone number immediately.
+
+--------------------------------------------------------------------------------
+PREREQUISITES:
+--------------------------------------------------------------------------------
+1. A standard personal Facebook account.
+2. An internet browser on your computer.
+3. Your personal smartphone with WhatsApp installed.
+
+================================================================================
+STEP 1: LOG IN TO META DEVELOPER PORTAL
+================================================================================
+1. Open your browser and go to:
+   https://developers.facebook.com/
+
+2. Click 'Log In' in the top-right corner using your existing Facebook account.
+
+3. If this is your first time:
+   - Click 'Get Started'.
+   - Accept the Meta Developer Terms.
+   - Select your role (e.g., 'Developer' or 'Other') and verify your account.
+
+================================================================================
+STEP 2: CREATE A NEW META APP
+================================================================================
+1. In the top-right navigation bar, click 'My Apps'.
+2. Click the green/blue button labeled 'Create App'.
+3. On the screen 'What do you want your app to do?':
+   - Select 'Other' -> Click 'Next'.
+4. On the screen 'Select an app type':
+   - Select 'Business' -> Click 'Next'.
+5. Enter App Details:
+   - App Name: EcoPulse Shirpur (or any name you choose)
+   - App Contact Email: Your email address
+   - Business Account: You can leave this as 'None' or select your business
+6. Click 'Create App' (enter your Facebook password if prompted).
+
+================================================================================
+STEP 3: ADD WHATSAPP TO YOUR APP
+================================================================================
+1. You will be taken to the 'Add products to your app' dashboard.
+2. Scroll down until you find the 'WhatsApp' card.
+3. Click the 'Set up' button on the WhatsApp card.
+4. Click 'Continue' to accept Meta's WhatsApp terms.
+
+================================================================================
+STEP 4: GET YOUR SECRET API KEYS
+================================================================================
+You are now on the 'API Setup' screen.
+Look at the center of the page to find your 2 key credentials:
+
+1. TEMPORARY ACCESS TOKEN:
+   - A long string starting with 'EAAG...'
+   - Click the 'Copy' button next to it.
+   (Note: This temporary token lasts for 24 hours. For permanent production tokens,
+   see the 'Permanent Token Setup' section below).
+
+2. PHONE NUMBER ID:
+   - A numerical string (e.g., 104829104829104).
+   - Copy this number.
+
+3. OPEN YOUR PROJECT FILE:
+   Navigate to 'server/.env' in your code editor and paste these values:
+
+   WHATSAPP_PROVIDER=meta
+   WHATSAPP_TOKEN="EAAG...paste_your_token_here..."
+   WHATSAPP_PHONE_NUMBER_ID="104829104829104"
+   WHATSAPP_VERIFY_TOKEN="ecopulse_whatsapp_token_2026"
+   WHATSAPP_BUSINESS_PHONE="+919876543210"
+
+================================================================================
+STEP 5: WHITELIST YOUR TEST PHONE NUMBER
+================================================================================
+Before sending messages with a test number, Meta requires you to verify the
+recipient's personal WhatsApp number:
+
+1. On the same 'API Setup' page, find 'Step 1: Select phone numbers'.
+2. In the 'To' dropdown menu, click 'Manage phone number list'.
+3. Select Country: 'India (+91)' and enter your personal WhatsApp mobile number.
+4. Click 'Next'. Meta will send a 6-digit verification code to your WhatsApp.
+5. Enter the 6-digit code on the Meta screen and click 'Verify'.
+   (Your personal phone is now authorized to receive test messages).
+
+================================================================================
+STEP 6: CONFIGURE THE WEBHOOK (LINKING WHATSAPP TO YOUR BACKEND)
+================================================================================
+The webhook allows Meta to forward citizen messages, photos, and locations
+to your FastAPI backend.
+
+1. In the left-hand sidebar menu, expand 'WhatsApp' and click 'Configuration'.
+2. In the 'Webhook' section, click the 'Edit' button.
+3. Enter the following details:
+
+   CALLBACK URL:
+   - For Production (Render):
+     https://<your-render-backend-url>/api/whatsapp/webhook
+     (Example: https://city-swap-backend.onrender.com/api/whatsapp/webhook)
+
+   - For Local Testing on your Computer:
+     Use ngrok (run: ngrok http 8000) and enter:
+     https://<your-ngrok-subdomain>.ngrok-free.app/api/whatsapp/webhook
+
+   VERIFY TOKEN:
+     ecopulse_whatsapp_token_2026
+     (Must match WHATSAPP_VERIFY_TOKEN in server/.env)
+
+4. Click 'Verify and save'.
+   Meta will send a test GET handshake request to your server.
+   Your backend will verify the token and return a success checkmark.
+
+5. Under 'Webhook fields', click the 'Manage' button.
+6. Look for the row named 'messages' and click 'Subscribe'.
+7. Click 'Done'.
+
+================================================================================
+STEP 7: TEST ON ORIGINAL WHATSAPP!
+================================================================================
+1. Go back to 'WhatsApp' -> 'API Setup' in the left menu.
+2. Check the 'From' field: Meta displays its test phone number (e.g., +1 555...).
+3. Save this number in your phone's contacts as 'EcoPulse Test' or click
+   the link on the screen to open the chat directly in WhatsApp.
+4. Send this message from your personal WhatsApp:
+
+   JOIN SHP-W12-H1042
+
+5. You will instantly receive the live bilingual EcoPulse citizen dashboard:
+   - Reply '1' to report waste (send photo & location).
+   - Reply '2' to track complaints.
+   - Reply '3' to check your EcoCoin balance & municipal tax rebate value.
+   - Reply '4' to view the live location of the garbage collection truck!
+   - Reply '6' to switch language between Marathi and English.
+
+================================================================================
+HOW TO GET A PERMANENT (NEVER-EXPIRING) ACCESS TOKEN FOR PRODUCTION
+================================================================================
+Temporary tokens expire after 24 hours. For 24/7 municipal deployment:
+
+1. Open Meta Business Manager Settings:
+   https://business.facebook.com/settings/
+2. In the left menu, click 'Users' -> 'System users'.
+3. Click 'Add' -> Name it 'EcoPulse-Bot' -> Select Role: 'Admin'.
+4. Click 'Generate new token' -> Select your App ('EcoPulse Shirpur').
+5. Under Token Expiration, select 'Never'.
+6. Check these 2 permissions:
+   - whatsapp_business_messaging
+   - whatsapp_business_management
+7. Click 'Generate Token' and copy this permanent token into your 'server/.env':
+   WHATSAPP_TOKEN="EAAG..."
+
+================================================================================
+HOW TO GENERATE HOUSEHOLD QR CODE STICKERS FOR PRINTING
+================================================================================
+To generate QR code stickers for all 27 wards in Shirpur, call the backend API:
+
+ENDPOINT:
+POST /api/whatsapp/generate-qr
+Content-Type: application/json
+
+PAYLOAD:
+{
+  "ward": 12,
+  "household_number": 1042
+}
+
+RESPONSE:
+{
+  "household_code": "SHP-W12-H1042",
+  "ward": "Ward 12",
+  "household_number": 1042,
+  "qr_scan_text": "JOIN SHP-W12-H1042",
+  "whatsapp_direct_link": "https://wa.me/919876543210?text=JOIN%20SHP-W12-H1042"
+}
+
+Use any free QR code generator (or Python qrcode library) to convert the
+'whatsapp_direct_link' into a scannable sticker for municipal dustbins and gates!
+
+================================================================================
+TROUBLESHOOTING & COMMON MISTAKES
+================================================================================
+1. ERROR: 'Verification token mismatch' when saving Webhook:
+   -> Make sure WHATSAPP_VERIFY_TOKEN in server/.env is exactly:
+      ecopulse_whatsapp_token_2026
+
+2. Messages sent from WhatsApp do not trigger a reply:
+   -> Ensure you clicked 'Subscribe' on the 'messages' row in Webhook fields (Step 6).
+   -> Ensure your personal phone number is added to the 'To' list (Step 5).
+
+3. Error 401 / Invalid OAuth Token:
+   -> The 24-hour temporary token has expired. Copy a new token from the API Setup
+      page or generate a permanent System User token (see above).
+================================================================================

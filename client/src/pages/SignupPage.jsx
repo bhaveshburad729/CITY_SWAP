@@ -7,7 +7,13 @@ const SignupPage = () => {
 
   const handleSuccess = (user) => {
     localStorage.setItem('ecopulse_user', JSON.stringify(user));
-    navigate('/dashboard');
+    if (user?.role === 'driver') {
+      navigate('/driver');
+    } else if (user?.role === 'admin' || user?.role === 'collector') {
+      navigate('/admin');
+    } else {
+      navigate('/citizen');
+    }
   };
 
   return <SplitAuthLayout mode="signup" onSuccessNavigation={handleSuccess} />;

@@ -28,9 +28,9 @@ import {
   ArrowRight
 } from 'lucide-react';
 
-const DashboardPage = () => {
+const DashboardPage = ({ initialTab = 'Dashboard' }) => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('Dashboard');
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [user, setUser] = useState(null);
   const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);

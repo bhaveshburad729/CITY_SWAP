@@ -16,7 +16,7 @@ services:
       - key: PYTHON_VERSION
         value: "3.11.9"
       - key: DATABASE_URL
-        value: "postgresql://neondb_owner:npg_dmh4HkC9XAob@ep-lively-firefly-axvz95yn-pooler.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+        sync: false
       - key: SECRET_KEY
         generateValue: true
       - key: PROJECT_NAME
@@ -35,6 +35,9 @@ services:
     buildCommand: cd client && npm install && npm run build
     staticPublishPath: ./client/dist
     routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://city-swap-backend.onrender.com/api/*
       - type: rewrite
         source: /*
         destination: /index.html

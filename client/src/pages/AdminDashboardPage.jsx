@@ -44,9 +44,9 @@ import {
   Sparkle
 } from 'lucide-react';
 
-const AdminDashboardPage = () => {
+const AdminDashboardPage = ({ initialTab = 'Dashboard' }) => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('Dashboard');
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [user, setUser] = useState(null);
   const [showNotificationToast, setShowNotificationToast] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);

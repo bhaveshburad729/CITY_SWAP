@@ -4,26 +4,41 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from server.database.db import engine, Base, SessionLocal
 import server.models  # Import all SQLAlchemy models to register them with Base.metadata
-from server.routes import health, item, auth, complaint, driver, admin, uploads
+from server.routes import health, item, auth, complaint, driver, admin, uploads, whatsapp
 from server.services.auth_service import AuthService
 from server.utils.config import config
+
+from contextlib import asynccontextmanager
 
 # Create database tables automatically if they don't exist
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(
-    title=config.PROJECT_NAME,
-    version=config.VERSION,
-    description="Backend API for EcoPulse AI / CITY_SWAP - Full Stack Platform"
-)
-
-@app.on_event("startup")
-def startup_event():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     db = SessionLocal()
     try:
         AuthService.seed_demo_users(db)
+        from sqlalchemy import text
+        tables = ['tasks', 'complaints', 'users', 'items', 'notifications', 'fuel_logs', 'whatsapp_citizens']
+        for t in tables:
+            try:
+                seq = db.execute(text(f"SELECT pg_get_serial_sequence('{t}', 'id')")).scalar()
+                if seq:
+                    max_id = db.execute(text(f"SELECT COALESCE(MAX(id), 0) FROM {t}")).scalar()
+                    db.execute(text(f"SELECT setval('{seq}', {max_id + 1}, false)"))
+            except Exception:
+                pass
+        db.commit()
     finally:
         db.close()
+    yield
+
+app = FastAPI(
+    title=config.PROJECT_NAME,
+    version=config.VERSION,
+    description="Backend API for EcoPulse AI / CITY_SWAP - Full Stack Platform",
+    lifespan=lifespan
+)
 
 # Enable CORS for frontend integration
 app.add_middleware(
@@ -47,6 +62,7 @@ app.include_router(driver.router)
 app.include_router(admin.router)
 app.include_router(item.router)
 app.include_router(uploads.router)
+app.include_router(whatsapp.router, prefix="/api/whatsapp", tags=["WhatsApp"])
 
 @app.get("/")
 def root():

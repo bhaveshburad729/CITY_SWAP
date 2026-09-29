@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Lock, Eye, EyeOff, CheckCircle2, ShieldAlert, ArrowRight, User, Shield, Truck, ShoppingCart, UserCheck, Headphones, MapPin, ChevronRight } from 'lucide-react';
+import { Lock, Eye, EyeOff, CheckCircle2, ShieldAlert, User, Shield, Truck, ShoppingCart, UserCheck, Headphones, MapPin, ChevronRight } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -49,14 +49,14 @@ const LoginForm = ({ onSwitchToSignup, onOpenForgotPassword, onRoleChange, onSuc
     }
   };
 
-  const getTitle = () => {
+  const getPortalTitle = () => {
     if (selectedRole === 'citizen') return 'Citizen Portal';
     if (selectedRole === 'driver') return 'Driver Portal';
     if (selectedRole === 'collector') return 'Admin Portal';
     return 'Admin Portal';
   };
 
-  const getSubtitle = () => {
+  const getPortalSubtitle = () => {
     if (selectedRole === 'citizen') return 'Report waste, earn eco-coins, track status live.';
     if (selectedRole === 'driver') return 'View assigned routes, update status, track fuel & metrics.';
     if (selectedRole === 'collector') return 'Manage municipal operations, system data and personnel.';

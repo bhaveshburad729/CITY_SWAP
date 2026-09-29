@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Sparkles, Shield, Zap, CheckCircle2, Star, Truck, UserCheck, ShoppingCart } from 'lucide-react';
+import { ArrowLeft, Sparkles, Shield, Star } from 'lucide-react';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import ForgotPasswordModal from './ForgotPasswordModal';
@@ -146,6 +146,7 @@ const AuthLayout = ({ initialMode = 'login', onSuccessNavigation }) => {
                     <LoginForm
                       onSwitchToSignup={() => setActiveTab('signup')}
                       onOpenForgotPassword={() => setIsForgotPasswordOpen(true)}
+                      onRoleChange={setActiveRole}
                       onSuccess={onSuccessNavigation}
                     />
                   </motion.div>
@@ -159,6 +160,7 @@ const AuthLayout = ({ initialMode = 'login', onSuccessNavigation }) => {
                   >
                     <SignupForm
                       onSwitchToLogin={() => setActiveTab('login')}
+                      onRoleChange={setActiveRole}
                       onSuccess={onSuccessNavigation}
                     />
                   </motion.div>

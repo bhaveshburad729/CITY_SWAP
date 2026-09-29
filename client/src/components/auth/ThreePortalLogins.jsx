@@ -84,6 +84,17 @@ const ThreePortalLogins = ({ onSuccess }) => {
             <span>Need an account? Sign Up →</span>
           </Link>
         </div>
+
+        {/* Evaluator Quick Demo Sandbox Banner */}
+        <div className="mt-2 px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-between text-xs font-bold text-emerald-800">
+          <span className="flex items-center gap-1.5">
+            <span>✨</span>
+            <span>Auditor or Council Evaluator?</span>
+          </span>
+          <Link to="/demo" className="text-emerald-700 hover:text-emerald-900 underline font-black">
+            1-Click Instant Demo →
+          </Link>
+        </div>
       </div>
 
       {/* Single Active Portal Card View */}

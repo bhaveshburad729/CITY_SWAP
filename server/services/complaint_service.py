@@ -27,6 +27,17 @@ class ComplaintService:
         return ComplaintService.get_all_complaints(db)
 
     @staticmethod
+    def get_complaint_by_tracking_or_id(db: Session, identifier: str) -> Optional[ComplaintResponse]:
+        clean_id = identifier.strip()
+        # Try finding by tracking number
+        complaint = db.query(Complaint).filter(Complaint.tracking_number.ilike(clean_id)).first()
+        if not complaint and clean_id.isdigit():
+            complaint = db.query(Complaint).filter(Complaint.id == int(clean_id)).first()
+        if complaint:
+            return ComplaintService._to_response(complaint)
+        return None
+
+    @staticmethod
     def create_complaint(db: Session, payload: ComplaintCreate, user: Optional[User] = None) -> ComplaintResponse:
         tracking_num = f"EP-2026-{random.randint(10000, 99999)}"
         ai_res = AIService.verify_waste_image(payload.image_url, payload.type)

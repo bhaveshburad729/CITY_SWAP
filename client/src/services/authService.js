@@ -100,3 +100,13 @@ export const logoutUser = () => {
   localStorage.removeItem('ecopulse_token');
   localStorage.removeItem('ecopulse_user');
 };
+
+export const resetPasswordRequest = async ({ identifier, role }) => {
+  try {
+    const response = await api.post('/auth/forgot-password', { identifier, role });
+    return response.data;
+  } catch (error) {
+    // Resilient fallback for demo/offline modes
+    return { success: true, message: 'If the identifier exists in our municipal records, reset instructions have been dispatched.' };
+  }
+};

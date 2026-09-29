@@ -356,8 +356,8 @@ const CitizenPortalLogin = ({ onSuccess, onOpenForgotPassword }) => {
 
       {/* Decorative Bottom Wave Skyline */}
       <div className="mt-4 pt-2 border-t border-emerald-100 flex items-center justify-between text-[10px] text-emerald-800/70 font-bold">
-        <span>🌱 Eco-Certified Login</span>
-        <span>City Swap 2026</span>
+        <span>🏛️ Shirpur Municipal Council Pilot</span>
+        <span>DPDP Act 2023 Compliant</span>
       </div>
     </div>
   );
